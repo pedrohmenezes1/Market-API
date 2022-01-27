@@ -1,0 +1,3 @@
+# Converter terminações de linha de arquivo de texto para lf
+* text eol=lf
+*.js text
