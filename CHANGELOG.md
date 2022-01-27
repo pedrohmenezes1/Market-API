@@ -7,3 +7,10 @@ Todas as mudanças notáveis serão documentadas neste arquivo.
 - Criado base do projeto
 
 ### Features
+
+## 1.0.1 (2022-01-27)
+
+- Adicionado conexão com banco de dados
+- Tratamento de erros
+- Middlewares "Helmet, xss, sanitize, compression, cors, httpstatus,morgan, config e http tratamento de erros.
+- Adicionado rota principal api/v1
