@@ -14,18 +14,17 @@ const carsSchema = mongoose.Schema(
       trim: true,
     },
     ano: {
-      type: Number,
+      type: String,
+      required: true,
+      trim: true,
+    },
+    quantidadePassageiros: {
+      type: String,
       required: true,
       trim: true,
     },
     acessorios: {
       type: Array,
-      default: [],
-    },
-    quantidadePassageiros: {
-      type: Number,
-      required: true,
-      trim: true,
     },
   },
   {
