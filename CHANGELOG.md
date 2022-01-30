@@ -14,3 +14,10 @@ Todas as mudanças notáveis serão documentadas neste arquivo.
 - Tratamento de erros
 - Middlewares "Helmet, xss, sanitize, compression, cors, httpstatus,morgan, config e http tratamento de erros.
 - Adicionado rota principal api/v1
+
+## 1.0.1 (28/01/2022)
+
+- Adicionado configs
+- Tratamento de Erros
+- License MIT
+- Validações

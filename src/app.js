@@ -9,7 +9,7 @@ const config = require('./config/config');
 const morgan = require('./config/morgan');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
-const ApiError = require('./utils/ApiError');
+const MarketError = require('./utils/MarketError');
 
 const app = express();
 
@@ -35,10 +35,10 @@ app.use('/api/v1', routes);
 
 // envia de volta um erro 404 para qualquer solicitação de API desconhecida
 app.use((req, res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
+  next(new MarketError(httpStatus.NOT_FOUND, 'Not found'));
 });
 
-// converter erro para ApiError, se necessário
+// converter erro para MarketError, se necessário
 app.use(errorConverter);
 
 // lidar com erro
