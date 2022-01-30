@@ -3,8 +3,8 @@ const serialize = ({ _id, modelo, cor, ano, quantidadePassageiros, acessorios })
   modelo,
   cor,
   ano,
-  quantidadePassageiros,
   acessorios,
+  quantidadePassageiros,
 });
 
 module.exports = { serialize };
