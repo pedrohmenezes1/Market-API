@@ -8,9 +8,20 @@ const CarsRepository = require('../repository/cars.repository');
  * @returns {Promise<CarsRepository>}
  */
 const createCars = async (carsBody) => {
-  return CarsRepository.create(carsBody);
+  return CarsRepository.createCars(carsBody);
+};
+
+/**
+ * Listar carros
+ * @param {Object} cars
+ * @returns {Promise<CarsRepository>}
+ */
+const carsList = async (cars) => {
+  const carsResult = await CarsRepository.findCars(cars);
+  return carsResult;
 };
 
 module.exports = {
   createCars,
+  carsList,
 };

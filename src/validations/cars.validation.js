@@ -21,6 +21,22 @@ const createCars = {
   }),
 };
 
+const getCars = {
+  query: Joi.object().keys({
+    modelo: Joi.string(),
+    cor: Joi.string(),
+    ano: Joi.number().integer(),
+    acessorios: Joi.array().items(
+      Joi.object({
+        descricao: Joi.string(),
+      })
+    ),
+    limit: Joi.number().integer(),
+    offset: Joi.number().integer(),
+  }),
+};
+
 module.exports = {
   createCars,
+  getCars,
 };

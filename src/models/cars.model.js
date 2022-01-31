@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
+const mongoosePaginate = require('mongoose-paginate-v2');
 const { toJSON } = require('./plugins');
 
 const connection = mongoose.createConnection('mongodb://localhost:27017/market-api');
@@ -45,6 +46,8 @@ const carsSchema = mongoose.Schema(
 );
 
 carsSchema.plugin(toJSON);
+
+carsSchema.plugin(mongoosePaginate);
 
 carsSchema.plugin(autoIncrement.plugin, {
   model: 'Cars',

@@ -7,4 +7,12 @@ const serialize = ({ _id, modelo, cor, ano, quantidadePassageiros, acessorios })
   quantidadePassageiros,
 });
 
-module.exports = { serialize };
+const paginateSerialize = ({ docs, total, limit, offset, offsets }) => ({
+  veiculos: docs.map(serialize),
+  limit,
+  total,
+  offset,
+  offsets,
+});
+
+module.exports = { serialize, paginateSerialize };

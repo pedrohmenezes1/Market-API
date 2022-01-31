@@ -5,6 +5,9 @@ const carsController = require('../../controllers/cars.controller');
 
 const router = express.Router();
 
-router.route('/').post(validate(carsValidation.createCars), carsController.createCars);
+router
+  .route('/')
+  .post(validate(carsValidation.createCars), carsController.createCars)
+  .get(validate(carsValidation.getCars), carsController.getCars);
 
 module.exports = router;
