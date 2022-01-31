@@ -31,8 +31,6 @@ const getCars = {
         descricao: Joi.string(),
       })
     ),
-    limit: Joi.number().integer(),
-    offset: Joi.number().integer(),
   }),
 };
 

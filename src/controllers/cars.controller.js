@@ -11,8 +11,8 @@ const createCars = catchAsync(async (req, res) => {
 });
 
 const getCars = catchAsync(async (req, res) => {
-  const veiculos = await carsService.carsList(req.query);
-  res.status(200).json(paginateSerialize(veiculos));
+  const result = await carsService.carsList(req.query);
+  res.status(200).json(paginateSerialize(result));
 });
 
 module.exports = {
