@@ -1,5 +1,6 @@
 const Joi = require('joi');
-/* const { objectId } = require('./custom.validation'); */
+const { objectId } = require('./custom.validation');
+
 const currentYear = new Date().getFullYear();
 
 const createCars = {
@@ -34,7 +35,14 @@ const getCars = {
   }),
 };
 
+const deleteCars = {
+  params: Joi.object().keys({
+    carsId: Joi.string().custom(objectId),
+  }),
+};
+
 module.exports = {
   createCars,
   getCars,
+  deleteCars,
 };

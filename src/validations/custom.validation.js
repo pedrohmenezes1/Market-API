@@ -1,6 +1,6 @@
 const objectId = (value, helpers) => {
-  if (!value.match(/^[0-9a-fA-F]{24}$/)) {
-    return helpers.message('"{{#label}}" deve ser um ID mongo válido');
+  if (!value.match(/^[0-9a-fA-F]$/)) {
+    return helpers.message('"{{#label}}" deve ser um ID de carro válido');
   }
   return value;
 };

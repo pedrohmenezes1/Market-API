@@ -1,6 +1,6 @@
-/* const httpStatus = require('http-status'); */
+const httpStatus = require('http-status');
 const CarsRepository = require('../repository/cars.repository');
-/* const MarketError = require('../utils/MarketError'); */
+const MarketError = require('../utils/MarketError');
 
 /**
  * Criar um carro
@@ -13,15 +13,31 @@ const createCars = async (carsBody) => {
 
 /**
  * Listar carros
- * @param {Object} cars
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
  * @returns {Promise<CarsRepository>}
  */
-const carsList = async (cars) => {
-  const carsResult = await CarsRepository.findCars(cars);
+const carsList = async (filter, options) => {
+  const carsResult = await CarsRepository.findCars(filter, options);
   return carsResult;
+};
+
+/**
+ * Delete cars by id
+ * @param {ObjectId} carsId
+ * @returns {Promise<CarsRepository>}
+ */
+const deleteCarsById = async (carsId) => {
+  const cars = await CarsRepository.findCarsById(carsId);
+  if (!cars) {
+    throw new MarketError(httpStatus.NOT_FOUND, 'Carro não encontrado');
+  }
+  await cars.remove();
+  return cars;
 };
 
 module.exports = {
   createCars,
   carsList,
+  deleteCarsById,
 };

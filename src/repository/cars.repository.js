@@ -13,5 +13,14 @@ class CarsRepository {
       { limit: Number(limit), page: Number(page), skip: (Number(page) - 1) * Number(limit) }
     );
   }
+
+  async getCarsById(id) {
+    return Cars.findById(id);
+  }
+
+  async findCarsById(id) {
+    return this.getCarsById(id);
+  }
 }
+
 module.exports = new CarsRepository();
