@@ -10,6 +10,9 @@ router
   .post(validate(carsValidation.createCars), carsController.createCars)
   .get(validate(carsValidation.getCars), carsController.getCars);
 
-router.route('/:carsId').delete(validate(carsValidation.deleteCars), carsController.deleteCars);
+router
+  .route('/:carsId')
+  .delete(validate(carsValidation.deleteCars), carsController.deleteCars)
+  .patch(validate(carsValidation.updateCars), carsController.updateCars);
 
 module.exports = router;

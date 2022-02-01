@@ -21,6 +21,10 @@ class CarsRepository {
   async findCarsById(id) {
     return this.getCarsById(id);
   }
+
+  async updateCarsById(id) {
+    return this.getCarsById(id);
+  }
 }
 
 module.exports = new CarsRepository();

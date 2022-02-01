@@ -13,15 +13,22 @@ const createCars = catchAsync(async (req, res) => {
 const getCars = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['modelo', 'cor', 'ano', 'acessorios.descricao']);
   const result = await carsService.carsList(req.query, filter);
-  res.status(200).json(paginateSerialize(result));
+  res.status(200).send(paginateSerialize(result));
 });
 
 const deleteCars = catchAsync(async (req, res) => {
   await carsService.deleteCarsById(req.params.carsId);
   res.status(httpStatus.NO_CONTENT).send();
 });
+
+const updateCars = catchAsync(async (req, res) => {
+  const car = await carsService.updateCarsById(req.params.carsId, req.body);
+  res.status(200).send(serialize(car));
+});
+
 module.exports = {
   createCars,
   getCars,
   deleteCars,
+  updateCars,
 };
