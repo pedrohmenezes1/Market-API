@@ -3,7 +3,7 @@ const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
 const { serialize, paginateSerialize } = require('../serialize/cars.serialize');
 const { carsService } = require('../services');
-/* const MarketError = require('../utils/MarketError'); */
+const MarketError = require('../utils/MarketError');
 
 const createCars = catchAsync(async (req, res) => {
   const car = await carsService.createCars(req.body);
@@ -26,9 +26,18 @@ const updateCars = catchAsync(async (req, res) => {
   res.status(200).send(serialize(car));
 });
 
+const getCarsId = catchAsync(async (req, res) => {
+  const car = await carsService.getCarsById(req.params.carsId);
+  if (!car) {
+    throw new MarketError(httpStatus.NOT_FOUND, 'Carro não encontrado');
+  }
+  res.status(200).send(serialize(car));
+});
+
 module.exports = {
   createCars,
   getCars,
   deleteCars,
   updateCars,
+  getCarsId,
 };

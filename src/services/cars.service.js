@@ -1,5 +1,4 @@
 const httpStatus = require('http-status');
-const { getCarsById } = require('../repository/cars.repository');
 const CarsRepository = require('../repository/cars.repository');
 const MarketError = require('../utils/MarketError');
 
@@ -44,7 +43,7 @@ const deleteCarsById = async (carsId) => {
  * @returns {Promise<CarsRepository>}
  */
 const updateCarsById = async (carsId, updateBody) => {
-  const car = await getCarsById(carsId);
+  const car = await CarsRepository.getCarsId(carsId);
   if (!car) {
     throw new MarketError(httpStatus.NOT_FOUND, 'Carro não encontrado');
   }
@@ -53,9 +52,19 @@ const updateCarsById = async (carsId, updateBody) => {
   return car;
 };
 
+/**
+ * Burcar carro por id
+ * @param {ObjectId} id
+ * @returns {Promise<CarsRepository>}
+ */
+const getCarsById = async (id) => {
+  return CarsRepository.getCarsId(id);
+};
+
 module.exports = {
   createCars,
   carsList,
   deleteCarsById,
   updateCarsById,
+  getCarsById,
 };

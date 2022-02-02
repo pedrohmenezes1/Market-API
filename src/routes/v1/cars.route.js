@@ -13,6 +13,6 @@ router
 router
   .route('/:carsId')
   .delete(validate(carsValidation.deleteCars), carsController.deleteCars)
-  .patch(validate(carsValidation.updateCars), carsController.updateCars);
-
+  .patch(validate(carsValidation.updateCars), carsController.updateCars)
+  .get(validate(carsValidation.getCars), carsController.getCarsId);
 module.exports = router;

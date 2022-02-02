@@ -14,16 +14,16 @@ class CarsRepository {
     );
   }
 
-  async getCarsById(id) {
+  async getCarsId(id) {
     return Cars.findById(id);
   }
 
   async findCarsById(id) {
-    return this.getCarsById(id);
+    return this.getCarsId(id);
   }
 
   async updateCarsById(id) {
-    return this.getCarsById(id);
+    return this.getCarsId(id);
   }
 }
 
