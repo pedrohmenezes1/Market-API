@@ -27,11 +27,6 @@ const peopleSchema = mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
-      validate(value) {
-        if (!validator.isCpf(value)) {
-          throw new Error('Invalid cpf');
-        }
-      },
     },
     data_nascimento: {
       type: String,
