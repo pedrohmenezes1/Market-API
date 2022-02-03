@@ -1,5 +1,6 @@
 const express = require('express');
 const carsRoute = require('./cars.route');
+const peopleRoute = require('./people.route');
 
 const router = express.Router();
 
@@ -7,6 +8,10 @@ const defaultRoutes = [
   {
     path: '/car',
     route: carsRoute,
+  },
+  {
+    path: '/people',
+    route: peopleRoute,
   },
 ];
 
