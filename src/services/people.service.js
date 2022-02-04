@@ -64,10 +64,20 @@ const getPeopleById = async (id) => {
   return PeopleRepository.getPeopleId(id);
 };
 
+/**
+ * Get people by email
+ * @param {string} email
+ * @returns {Promise<PeopleRepository>}
+ */
+const getPeopleByEmail = async (email) => {
+  return PeopleRepository.getPeopleByEmail({ email });
+};
+
 module.exports = {
   createPeople,
   peopleList,
   deletePeopleById,
   updatePeopleById,
   getPeopleById,
+  getPeopleByEmail,
 };

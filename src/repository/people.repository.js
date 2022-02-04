@@ -36,6 +36,10 @@ class PeopleRepository {
   async updatePeopleById(id) {
     return this.getPeopleId(id);
   }
+
+  async getPeopleByEmail(email) {
+    return People.findOne({ email });
+  }
 }
 
 module.exports = new PeopleRepository();
