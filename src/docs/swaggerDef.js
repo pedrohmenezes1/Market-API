@@ -2,7 +2,7 @@ const { version } = require('../../package.json');
 const config = require('../config/config');
 
 const swaggerDef = {
-  openapi: '1.0.1',
+  openapi: '3.0.3',
   info: {
     title: 'compassolisa-project-final',
     description: 'projeto desenvolvido para o programa de bolsas da compasso uol',
