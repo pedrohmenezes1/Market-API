@@ -9,9 +9,14 @@ const tokenSchema = mongoose.Schema(
       required: true,
       index: true,
     },
+    people: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'People',
+      required: true,
+    },
     type: {
       type: String,
-      enum: [tokenTypes.ACCESS, tokenTypes.REFRESH],
+      enum: [tokenTypes.ACCESS],
       required: true,
     },
     expires: {

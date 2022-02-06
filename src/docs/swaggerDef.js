@@ -5,7 +5,12 @@ const swaggerDef = {
   openapi: '3.0.3',
   info: {
     title: 'compassolisa-project-final',
-    description: 'projeto desenvolvido para o programa de bolsas da compasso uol',
+    description: 'Projeto desenvolvido para o programa de bolsas da compasso uol',
+    contact: {
+      name: 'Pedro Henrique',
+      email: 'pedro.mk.13@hotmail.com',
+      url: 'https://github.com/pedrohmenezes1',
+    },
     version,
     license: {
       name: 'MIT',

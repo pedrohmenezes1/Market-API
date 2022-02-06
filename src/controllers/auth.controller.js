@@ -16,7 +16,7 @@ const authenticate = catchAsync(async (req, res) => {
   people.senha = undefined;
   const tokens = await tokenService.generateAuthTokens(people);
   req.headers.authorization = `Bearer ${tokens}`;
-  res.status(httpStatus.CREATED).json({ people, tokens });
+  res.status(httpStatus.CREATED).json({ email, tokens });
 });
 
 module.exports = {

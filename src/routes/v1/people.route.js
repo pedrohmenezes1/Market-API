@@ -9,12 +9,12 @@ const router = express.Router();
 router
   .route('/')
   .post(validate(peopleValidation.createPeople), peopleController.createPeople)
-  .get(auth('getPeople'), validate(peopleValidation.getPeoples), peopleController.getPeople);
+  .get(auth, validate(peopleValidation.getPeoples), peopleController.getPeople);
 
 router
   .route('/:peopleId')
-  .delete(auth('managePeople'), validate(peopleValidation.deletePeople), peopleController.deletePeople)
-  .patch(auth('managePeople'), validate(peopleValidation.updatePeople), peopleController.updatePeople)
-  .get(auth('getPeople'), validate(peopleValidation.getPeople), peopleController.getPeopleId);
+  .delete(auth, validate(peopleValidation.deletePeople), peopleController.deletePeople)
+  .patch(auth, validate(peopleValidation.updatePeople), peopleController.updatePeople)
+  .get(auth, validate(peopleValidation.getPeople), peopleController.getPeopleId);
 
 module.exports = router;
