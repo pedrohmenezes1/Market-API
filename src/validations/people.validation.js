@@ -1,6 +1,6 @@
 const JoiImport = require('joi');
 const DateExtension = require('@joi/date');
-const { password, objectId } = require('./custom.validation');
+const { senha, objectId } = require('./custom.validation');
 
 const Joi = JoiImport.extend(DateExtension);
 const now = Date.now();
@@ -12,9 +12,9 @@ const createPeople = {
     cpf: Joi.string()
       .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/)
       .required(),
-    data_nascimento: Joi.date().format('DD/MM/YYYY').raw().max('now').greater('1-1-1900').min(cutoffDate),
+    data_nascimento: Joi.date().format('DD/MM/YYYY').raw().max('now').max(cutoffDate),
     email: Joi.string().required().email(),
-    senha: Joi.string().required().custom(password),
+    senha: Joi.string().required().custom(senha),
     habilitado: Joi.string().required().valid('Sim', 'Não'),
   }),
 };
@@ -43,7 +43,7 @@ const updatePeople = {
       .required(),
     data_nascimento: Joi.date().format('DD/MM/YYYY').raw().max('now').greater('1-1-1900').min(cutoffDate),
     email: Joi.string().required().email(),
-    senha: Joi.string().required().custom(password),
+    senha: Joi.string().required().custom(senha),
     habilitado: Joi.string().required().valid('Sim', 'Não'),
   }),
 };

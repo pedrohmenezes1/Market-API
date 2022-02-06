@@ -35,6 +35,10 @@ app.use(express.urlencoded({ extended: true }));
 // Segurança, evita ataques XSS
 app.use(xss());
 
+// jwt authentication
+app.use(passport.initialize());
+passport.use('jwt', jwtStrategy);
+
 // Segurança, Defesa contra ataques de injeção de seletor de consulta
 app.use(mongoSanitize());
 
@@ -45,13 +49,9 @@ app.use(compression());
 app.use(cors());
 app.options('*', cors());
 
-// Autenticações
-app.use(passport.initialize());
-passport.use('jwt', jwtStrategy);
-
 // Limita as tentantivas de logins com senha ou email incorretos :)
 if (config.env === 'production') {
-  app.use('/v1/auth', authLimiter);
+  app.use('/api/v1', authLimiter);
 }
 
 // Routes

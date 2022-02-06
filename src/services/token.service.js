@@ -5,8 +5,8 @@ const { Token } = require('../models');
 const { tokenTypes } = require('../config/tokens');
 
 /**
- * Gerar token
- * @param {ObjectId} peopleId
+ * Generate token
+ * @param {ObjectId} userId
  * @param {Moment} expires
  * @param {string} type
  * @param {string} [secret]
@@ -23,7 +23,7 @@ const generateToken = (peopleId, expires, type, secret = config.jwt.secret) => {
 };
 
 /**
- * Salvar um token
+ * Save a token
  * @param {string} token
  * @param {ObjectId} peopleId
  * @param {Moment} expires
@@ -43,22 +43,22 @@ const saveToken = async (token, peopleId, expires, type, blacklisted = false) =>
 };
 
 /**
- * Verifica o token e retorna o documento do token (ou lança um erro se não for válido)
+ * Verify token and return token doc (or throw an error if it is not valid)
  * @param {string} token
  * @param {string} type
  * @returns {Promise<Token>}
  */
 const verifyToken = async (token, type) => {
   const payload = jwt.verify(token, config.jwt.secret);
-  const tokenDoc = await Token.findOne({ token, type, user: payload.sub, blacklisted: false });
+  const tokenDoc = await Token.findOne({ token, type, people: payload.sub, blacklisted: false });
   if (!tokenDoc) {
-    throw new Error('Token não encontrado');
+    throw new Error('Token not found');
   }
   return tokenDoc;
 };
 
 /**
- * Gerar tokens de autenticação
+ * Generate auth tokens
  * @param {People} people
  * @returns {Promise<Object>}
  */

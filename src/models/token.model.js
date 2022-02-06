@@ -9,14 +9,9 @@ const tokenSchema = mongoose.Schema(
       required: true,
       index: true,
     },
-    people: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'People',
-      required: true,
-    },
     type: {
       type: String,
-      enum: [tokenTypes.REFRESH, tokenTypes.VERIFY_EMAIL],
+      enum: [tokenTypes.ACCESS, tokenTypes.REFRESH],
       required: true,
     },
     expires: {
