@@ -6,7 +6,7 @@ const { tokenTypes } = require('../config/tokens');
 
 /**
  * Generate token
- * @param {ObjectId} userId
+ * @param {ObjectId} peopleId
  * @param {Moment} expires
  * @param {string} type
  * @param {string} [secret]
