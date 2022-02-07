@@ -78,4 +78,86 @@ module.exports = router;
  *          $ref: '#/components/responses/Unauthorized'
  *        "500":
  *          $ref: '#/components/responses/RequestError'
+ *   get:
+ *      summary: Listar carros ou por filtros
+ *      description: Lista todos os carros(fltros ativo pelo modelo do veículo e outras especificações).
+ *      tags: [Cars]
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *          name: modelo
+ *          in: query
+ *          description: Modelo do veículo
+ *          schema:
+ *             type: string
+ *          name: cor
+ *          in: query
+ *          description: Cor do veículo
+ *          schema:
+ *             type: string
+ *          name: ano
+ *          in: query
+ *          description: Ano do veículo
+ *          schema:
+ *             type: number
+ *          name: quantidadePassageiros
+ *          in: query
+ *          description: Quantidade de passageiros no veículo
+ *          schema:
+ *             type: number
+ *          name: limit
+ *          in: query
+ *          schema:
+ *             type: number
+ *          name: offset
+ *          in: query
+ *          schema:
+ *             type: number
+ *      responses:
+ *        "200":
+ *          description: Consulta realizada com sucesso
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/responses/Response-car'
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "500":
+ *          $ref: '#/components/responses/RequestError'
+ */
+/**
+ * @swagger
+ * /car/id:
+ *      parameters:
+ *          name: id
+ *          in: path
+ *          description: Id do carro
+ *          required: true
+ *          schema:
+ *             type: string
+ *   get:
+ *      summary: Buscar carros por id
+ *      description: Consulta realizada utilizando o id do veículo.
+ *      tags: [Cars]
+ *      security:
+ *        - bearerAuth: []
+ *      responses:
+ *        "200":
+ *          description: Consulta realizada com sucesso
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/responses/Response-car'
+ *        "400":
+ *          $ref: '#/components/responses/ValidationError'
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "404":
+ *          description: Id não encontrado
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schema/Error'
+ *        "500":
+ *          $ref: '#/components/responses/RequestError'
  */
