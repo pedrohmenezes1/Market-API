@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const mongoosePaginate = require('mongoose-paginate-v2');
 const { toJSON } = require('./plugins');
-const { roles } = require('../config/roles');
 
 const peopleSchema = mongoose.Schema(
   {
@@ -50,15 +49,6 @@ const peopleSchema = mongoose.Schema(
       type: String,
       required: true,
       enum: ['Sim', 'Não'],
-    },
-    role: {
-      type: String,
-      enum: roles,
-      default: 'people',
-    },
-    isEmailVerified: {
-      type: Boolean,
-      default: false,
     },
   },
   {

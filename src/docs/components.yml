@@ -1,0 +1,97 @@
+components:
+  schemas:
+    Car:
+      type: object
+      properties:
+        modelo:
+          type: string
+        cor:
+          type: string
+        ano:
+          type: number
+        acessorios:
+          type: array
+          items:
+            type: object
+            properties:
+              descricao:
+                type: string
+                min: 1
+        quantidadePassageiros:
+          type: number
+      example:
+        id: 5ebac534954b54139806c112
+        modelo: GM S10 2.8
+        cor: Preto
+        ano: 2019
+        acessorios: [
+          descrição: Ar-condicionado,
+          descrição: 4-portas
+        ]
+        quantidadePassageiros: 5
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+
+  responses:
+    Response-car:
+      type: object
+      properties:
+        _id:
+          type: string
+        acessorios:
+          type: array
+          items:
+            type: object
+            properties:
+              descricao:
+                type: string
+        cor:
+          type: string
+        modelo:
+          type: string
+        ano:
+          type: number
+        quantidadePassageiros:
+          type: number
+
+    ValidationError:
+        description: Validation error
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              code: 400
+              message: Error in validations
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 401
+            message: Please authenticate
+
+    RequestError:
+      description: Request error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 500
+            message: Internal server error
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
