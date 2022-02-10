@@ -9,8 +9,8 @@ const hashedPassword = bcrypt.hashSync(senha, salt);
 
 const peopleOne = {
   _id: mongoose.Types.ObjectId(),
-  nome: faker.name.findName(),
-  cpf: '118.184.154-56',
+  nome: faker.name.firstname(),
+  cpf: faker.br.cpf(),
   data_nascimento: '23/07/1998',
   email: faker.internet.email().toLowerCase(),
   senha,
@@ -19,12 +19,12 @@ const peopleOne = {
 
 const peopleTwo = {
   _id: mongoose.Types.ObjectId(),
-  nome: faker.name.findName(),
-  cpf: '118.184.154-56',
-  data_nascimento: '23/07/1998',
+  nome: faker.name.firstname(),
+  cpf: faker.br.cpf(),
+  data_nascimento: '10/06/2001',
   email: faker.internet.email().toLowerCase(),
   senha,
-  habilitado: 'Sim',
+  habilitado: 'Não',
 };
 const insertPeoples = async (peoples) => {
   await People.insertMany(peoples.map((people) => ({ ...people, senha: hashedPassword })));

@@ -4,8 +4,17 @@ const Cars = require('../../src/models/cars.model');
 const carOne = {
   _id: mongoose.Types.ObjectId(),
   modelo: 'GM S10 2.8',
-  ano: '2018',
+  ano: 2018,
   acessorios: [{ descricao: 'Ar-condicionado' }, { descricao: 'Dir. Hidráulica' }],
+  quantidadePassageiros: 5,
+};
+
+const carTwo = {
+  _id: mongoose.Types.ObjectId(),
+  modelo: 'Fusca',
+  ano: 2010,
+  acessorios: [{ descricao: '2 Portas' }],
+  quantidadePassageiros: 4,
 };
 
 const insertCars = async (car) => {
@@ -14,5 +23,6 @@ const insertCars = async (car) => {
 
 module.exports = {
   carOne,
+  carTwo,
   insertCars,
 };
