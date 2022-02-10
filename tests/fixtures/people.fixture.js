@@ -9,7 +9,7 @@ const hashedPassword = bcrypt.hashSync(senha, salt);
 
 const peopleOne = {
   _id: mongoose.Types.ObjectId(),
-  name: faker.name.findName(),
+  nome: faker.name.findName(),
   cpf: '118.184.154-56',
   data_nascimento: '23/07/1998',
   email: faker.internet.email().toLowerCase(),
@@ -19,7 +19,7 @@ const peopleOne = {
 
 const peopleTwo = {
   _id: mongoose.Types.ObjectId(),
-  name: faker.name.findName(),
+  nome: faker.name.findName(),
   cpf: '118.184.154-56',
   data_nascimento: '23/07/1998',
   email: faker.internet.email().toLowerCase(),
