@@ -25,7 +25,7 @@
     },
     {
       "name": "Authenticate",
-      "description": "Autenticação das pessoas"
+      "description": "Autenticação de pessoas"
     },
     {
       "name": "Token",
@@ -49,8 +49,8 @@
         "tags": [
           "Car"
         ],
-        "summary": "Adiciona veículos na tabela",
-        "description": "A inclusão é realizada e retornando os dados com o id",
+        "summary": "Adiciona veículos",
+        "description": "Inclui veículos na tabela",
         "requestBody": {
           "content": {
             "application/json": {
