@@ -19,7 +19,7 @@ const peopleSchema = mongoose.Schema(
       trim: true,
       validate(value) {
         if (!cpf.isValid(value)) {
-          throw new Error('Invalid cpf format XXX.XXX.XXX-XX');
+          throw new Error(`Invalid cpf ${value}`);
         }
       },
     },
