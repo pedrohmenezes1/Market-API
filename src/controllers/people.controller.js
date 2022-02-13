@@ -12,8 +12,8 @@ const createPeople = catchAsync(async (req, res) => {
 
 const getPeople = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['nome', 'cpf', 'data_nascimento', 'email', 'habilitado']);
-  const result = await peopleService.peopleList(req.query, filter);
-  res.status(200).send(paginateSerialize(result));
+  const people = await peopleService.peopleList(req.query, filter);
+  res.status(200).send(paginateSerialize(people));
 });
 
 const deletePeople = catchAsync(async (req, res) => {

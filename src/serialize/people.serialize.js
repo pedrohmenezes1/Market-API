@@ -11,7 +11,7 @@ const serialize = ({ _id, nome, cpf, data_nascimento, email, habilitado }) => ({
 });
 
 const paginateSerialize = ({ docs, limit, totalDocs, pagingCounter, totalPages }) => ({
-  pessoas: docs.map(serialize),
+  people: docs.map(serialize),
   limit,
   total: totalDocs,
   offset: pagingCounter,
