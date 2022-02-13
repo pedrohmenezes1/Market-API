@@ -8,7 +8,7 @@ describe('toJSON plugin', () => {
     connection = mongoose.createConnection();
   });
 
-  it('deve substituir _id por id', () => {
+  it('should replace _id with id', () => {
     const schema = mongoose.Schema();
     schema.plugin(toJSON);
     const Model = connection.model('Model', schema);
@@ -17,7 +17,7 @@ describe('toJSON plugin', () => {
     expect(doc.toJSON()).toHaveProperty('id', doc._id.toString());
   });
 
-  it('deve remover __v', () => {
+  it('should remove __v', () => {
     const schema = mongoose.Schema();
     schema.plugin(toJSON);
     const Model = connection.model('Model', schema);
@@ -25,7 +25,7 @@ describe('toJSON plugin', () => {
     expect(doc.toJSON()).not.toHaveProperty('__v');
   });
 
-  it('deve remover createdAt e updatedAt', () => {
+  it('should remove createdAt and updatedAt', () => {
     const schema = mongoose.Schema({}, { timestamps: true });
     schema.plugin(toJSON);
     const Model = connection.model('Model', schema);
@@ -34,19 +34,19 @@ describe('toJSON plugin', () => {
     expect(doc.toJSON()).not.toHaveProperty('updatedAt');
   });
 
-  it('deve remover qualquer caminho definido como privado', () => {
+  it('should remove any path set as private', () => {
     const schema = mongoose.Schema({
       public: { type: String },
       private: { type: String, private: true },
     });
     schema.plugin(toJSON);
     const Model = connection.model('Model', schema);
-    const doc = new Model({ public: 'algum valor público', private: 'algum valor privado' });
+    const doc = new Model({ public: 'some public value', private: 'some private value' });
     expect(doc.toJSON()).not.toHaveProperty('private');
     expect(doc.toJSON()).toHaveProperty('public');
   });
 
-  it('deve remover quaisquer caminhos aninhados definidos como privados', () => {
+  it('should remove any nested paths set as private', () => {
     const schema = mongoose.Schema({
       public: { type: String },
       nested: {
@@ -56,16 +56,16 @@ describe('toJSON plugin', () => {
     schema.plugin(toJSON);
     const Model = connection.model('Model', schema);
     const doc = new Model({
-      public: 'algum valor público',
+      public: 'some public value',
       nested: {
-        private: 'algum valor privado aninhado',
+        private: 'some nested private value',
       },
     });
-    expect(doc.toJSON()).not.toHaveProperty('aninhado.privado');
-    expect(doc.toJSON()).toHaveProperty('público');
+    expect(doc.toJSON()).not.toHaveProperty('nested.private');
+    expect(doc.toJSON()).toHaveProperty('public');
   });
 
-  it('também deve chamar o esquema para a função de transformação JSON', () => {
+  it('should also call the schema toJSON transform function', () => {
     const schema = mongoose.Schema(
       {
         public: { type: String },
@@ -82,8 +82,8 @@ describe('toJSON plugin', () => {
     );
     schema.plugin(toJSON);
     const Model = connection.model('Model', schema);
-    const doc = new Model({ public: 'algum valor público', private: 'algum valor privado' });
-    expect(doc.toJSON()).not.toHaveProperty('privado');
-    expect(doc.toJSON()).toHaveProperty('público');
+    const doc = new Model({ public: 'some public value', private: 'some private value' });
+    expect(doc.toJSON()).not.toHaveProperty('private');
+    expect(doc.toJSON()).toHaveProperty('public');
   });
 });

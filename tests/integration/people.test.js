@@ -4,7 +4,7 @@ const httpStatus = require('http-status');
 const app = require('../../src/app');
 const setupTestDB = require('../utils/setupTestDB');
 const { People } = require('../../src/models');
-const { peopleOne, peopleTwo, insertPeople } = require('../fixtures/people.fixture');
+const { peopleOne, peopleTwo, insertPeoples } = require('../fixtures/people.fixture');
 const { peopleOneAccessToken } = require('../fixtures/token.fixture');
 
 setupTestDB();
@@ -15,7 +15,7 @@ describe('People routes', () => {
 
     beforeEach(() => {
       newPeople = {
-        nome: faker.name.firstname(),
+        nome: faker.name.findName(),
         cpf: faker.br.cpf(),
         data_nascimento: '23/08/1998',
         email: faker.internet.email().toLowerCase(),
@@ -25,7 +25,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar 201 e criar com sucesso um novo usuário se os dados estiverem corretos', async () => {
-      await insertPeople();
+      await insertPeoples();
 
       const res = await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.CREATED);
 
@@ -52,35 +52,35 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 400 se o nome tiver menos de 5 caracteres', async () => {
-      await insertPeople();
+      await insertPeoples();
       newPeople.nome = 'ped';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
     });
 
     test('deve retornar o erro 400 se o email for inválido', async () => {
-      await insertPeople();
+      await insertPeoples();
       newPeople.email = 'invalidEmail';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
     });
 
     test('deve retornar o erro 400 se o email já estiver sendo usado', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       newPeople.email = peopleOne.email;
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
     });
 
     test('deve retornar o erro 400 se o comprimento da senha for menor que 6 caracteres', async () => {
-      await insertPeople();
+      await insertPeoples();
       newPeople.senha = 'pass1';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
     });
 
     test('deve retornar o erro 400 se a senha não contiver letras e números', async () => {
-      await insertPeople();
+      await insertPeoples();
       newPeople.senha = 'password';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
@@ -91,14 +91,14 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 400 se o formato do cpf não for xxx.xxx.xxx-xx', async () => {
-      await insertPeople();
+      await insertPeoples();
       newPeople.cpf = '131.137.810-999';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
     });
 
     test('deve retornar o erro 400 se a data_nascimento for menor que 18 anos', async () => {
-      await insertPeople();
+      await insertPeoples();
       newPeople.data_nascimento = '03/01/2017';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
@@ -107,7 +107,7 @@ describe('People routes', () => {
 
   describe('GET /api/v1/people', () => {
     test('deve retornar 200 e aplicar as opções de consulta padrão', async () => {
-      await insertPeople([peopleOne, peopleTwo]);
+      await insertPeoples([peopleOne, peopleTwo]);
 
       const res = await request(app)
         .get('/api/v1/people')
@@ -134,13 +134,13 @@ describe('People routes', () => {
     });
 
     test('deve retornar 401 se o token de acesso estiver ausente', async () => {
-      await insertPeople([peopleOne, peopleTwo]);
+      await insertPeoples([peopleOne, peopleTwo]);
 
       await request(app).get('/api/v1/people').send().expect(httpStatus.UNAUTHORIZED);
     });
 
     test('deve aplicar corretamente o filtro no campo de nome', async () => {
-      await insertPeople([peopleOne, peopleTwo]);
+      await insertPeoples([peopleOne, peopleTwo]);
 
       const res = await request(app)
         .get('/api/v1/people')
@@ -161,7 +161,7 @@ describe('People routes', () => {
     });
 
     test('deve aplicar corretamente o filtro no campo de cpf', async () => {
-      await insertPeople([peopleOne, peopleTwo]);
+      await insertPeoples([peopleOne, peopleTwo]);
 
       const res = await request(app)
         .get('/api/v1/people')
@@ -183,7 +183,7 @@ describe('People routes', () => {
     });
 
     test('deve aplicar corretamente o filtro no campo de data_nascimento', async () => {
-      await insertPeople([peopleOne, peopleTwo]);
+      await insertPeoples([peopleOne, peopleTwo]);
 
       const res = await request(app)
         .get('/api/v1/people')
@@ -205,7 +205,7 @@ describe('People routes', () => {
     });
 
     test('deve aplicar corretamente o filtro no campo de email', async () => {
-      await insertPeople([peopleOne, peopleTwo]);
+      await insertPeoples([peopleOne, peopleTwo]);
 
       const res = await request(app)
         .get('/api/v1/people')
@@ -227,7 +227,7 @@ describe('People routes', () => {
     });
 
     test('deve aplicar corretamente o filtro no campo de habilitado', async () => {
-      await insertPeople([peopleOne, peopleTwo]);
+      await insertPeoples([peopleOne, peopleTwo]);
 
       const res = await request(app)
         .get('/api/v1/people')
@@ -251,7 +251,7 @@ describe('People routes', () => {
 
   describe('GET /api/v1/people/:peopleId', () => {
     test('deve retornar 200 e o objeto da pessoa se os dados estiverem ok', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
 
       const res = await request(app)
         .get(`/api/v1/people/${peopleOne._id}`)
@@ -271,13 +271,13 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 401 se o token de acesso estiver ausente', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
 
       await request(app).get(`/api/v1/people/${peopleOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
     });
 
     test('deve retornar o erro 400 se peopleId não for um ID válido do mongo', async () => {
-      await insertPeople();
+      await insertPeoples();
 
       await request(app)
         .get('/api/v1/people/invalidId')
@@ -287,7 +287,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 404 se a pessoa não for encontrada', async () => {
-      await insertPeople();
+      await insertPeoples();
 
       await request(app)
         .get(`/api/v1/people/${peopleOne._id}`)
@@ -299,7 +299,7 @@ describe('People routes', () => {
 
   describe('DELETE /api/v1/people/:peopleId', () => {
     test('deve retornar 204 se os dados estiverem ok', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
 
       await request(app)
         .delete(`/api/v1/people/${peopleOne._id}`)
@@ -312,13 +312,13 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 401 se o token de acesso estiver ausente', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
 
       await request(app).delete(`/api/v1/people/${peopleOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
     });
 
     test('deve retornar o erro 400 se peopleId não for um ID válido do mongo', async () => {
-      await insertPeople();
+      await insertPeoples();
 
       await request(app)
         .delete('/api/v1/people/invalidId')
@@ -328,7 +328,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 404 se a pessoa não existir no banco de dados', async () => {
-      await insertPeople();
+      await insertPeoples();
 
       await request(app)
         .delete(`/api/v1/people/${peopleOne._id}`)
@@ -340,9 +340,9 @@ describe('People routes', () => {
 
   describe('PUT /api/v1/people/:peopleId', () => {
     test('deve retornar 200 e atualizar a pessoa com sucesso se os dados estiverem ok', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const updateBody = {
-        nome: faker.name.firstname(),
+        nome: faker.name.findName(),
         cpf: faker.br.cpf(),
         data_nascimento: '23/07/1997',
         email: faker.internet.email().toLowerCase(),
@@ -379,15 +379,15 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 401 se o token de acesso estiver ausente', async () => {
-      await insertPeople([peopleOne]);
-      const updateBody = { nome: faker.name.firstname() };
+      await insertPeoples([peopleOne]);
+      const updateBody = { nome: faker.name.findName() };
 
       await request(app).put(`/api/v1/people/${peopleOne._id}`).send(updateBody).expect(httpStatus.UNAUTHORIZED);
     });
 
     test('deve retornar o erro 400 se peopleId não for um ID válido do mongo', async () => {
-      await insertPeople();
-      const updateBody = { nome: faker.name.firstname() };
+      await insertPeoples();
+      const updateBody = { nome: faker.name.findName() };
 
       await request(app)
         .put(`/api/v1/people/invalidId`)
@@ -397,7 +397,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar 400 se o email for inválido', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const updateBody = { email: 'invalidEmail' };
 
       await request(app)
@@ -408,7 +408,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar 400 se o e-mail já estiver em uso', async () => {
-      await insertPeople([peopleOne, peopleTwo]);
+      await insertPeoples([peopleOne, peopleTwo]);
       const updateBody = { email: peopleTwo.email };
 
       await request(app)
@@ -419,7 +419,7 @@ describe('People routes', () => {
     });
 
     test('não deve retornar 400 se email for meu email', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const updateBody = { email: peopleOne.email };
 
       await request(app)
@@ -430,7 +430,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar 400 se o comprimento da senha for menor que 6 caracteres', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const updateBody = { senha: 'pass1' };
 
       await request(app)
@@ -441,7 +441,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar 400 se a senha não contiver letras e números', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const updateBody = { senha: 'password' };
 
       await request(app)

@@ -9,7 +9,7 @@ const { tokenService } = require('../../src/services');
 const MarketError = require('../../src/utils/MarketError');
 const setupTestDB = require('../utils/setupTestDB');
 const { tokenTypes } = require('../../src/config/tokens');
-const { peopleOne, insertPeople } = require('../fixtures/people.fixture');
+const { peopleOne, insertPeoples } = require('../fixtures/people.fixture');
 const { peopleOneAccessToken } = require('../fixtures/token.fixture');
 
 setupTestDB();
@@ -17,7 +17,7 @@ setupTestDB();
 describe('Auth routes', () => {
   describe('POST /api/v1/authenticate', () => {
     test('deve retornar 200 e fazer login de pessoas se o email e a senha corresponderem', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const loginCredentials = {
         email: peopleOne.email,
         senha: peopleOne.senha,
@@ -51,7 +51,7 @@ describe('Auth routes', () => {
     });
 
     test('deve retornar erro 401 se a senha estiver errada', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const loginCredentials = {
         email: peopleOne.email,
         senha: 'senhaErrada1',
@@ -65,7 +65,7 @@ describe('Auth routes', () => {
 
   describe('Middleware de autenticação', () => {
     test('deve chamar next sem erros se o token de acesso for válido', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const req = httpMocks.createRequest({ headers: { Authorization: `Bearer ${peopleOneAccessToken}` } });
       const next = jest.fn();
 
@@ -76,7 +76,7 @@ describe('Auth routes', () => {
     });
 
     test('deve chamar next com erro não autorizado se o token de acesso não for encontrado no cabeçalho', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const req = httpMocks.createRequest();
       const next = jest.fn();
 
@@ -89,7 +89,7 @@ describe('Auth routes', () => {
     });
 
     test('deve chamar next com erro não autorizado se o token de acesso não for um token jwt válido', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const req = httpMocks.createRequest({ headers: { Authorization: 'Bearer randomToken' } });
       const next = jest.fn();
 
@@ -102,7 +102,7 @@ describe('Auth routes', () => {
     });
 
     test('deve chamar next com erro não autorizado se o token de acesso for gerado com um segredo inválido', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const expires = moment().add(config.jwt.accessExpirationMinutes, 'minutes');
       const accessToken = tokenService.generateToken(peopleOne._id, expires, tokenTypes.ACCESS, 'invalidSecret');
       const req = httpMocks.createRequest({ headers: { Authorization: `Bearer ${accessToken}` } });
@@ -117,7 +117,7 @@ describe('Auth routes', () => {
     });
 
     test('deve chamar next com erro não autorizado se o token de acesso expirou', async () => {
-      await insertPeople([peopleOne]);
+      await insertPeoples([peopleOne]);
       const expires = moment().subtract(1, 'minutes');
       const accessToken = tokenService.generateToken(peopleOne._id, expires, tokenTypes.ACCESS);
       const req = httpMocks.createRequest({ headers: { Authorization: `Bearer ${accessToken}` } });
