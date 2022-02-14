@@ -25,7 +25,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar 201 e criar com sucesso um novo usuário se os dados estiverem corretos', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleOne]);
 
       const res = await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.CREATED);
 
@@ -52,15 +52,15 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 400 se o nome tiver menos de 5 caracteres', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleOne]);
       newPeople.nome = 'ped';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
     });
 
     test('deve retornar o erro 400 se o email for inválido', async () => {
-      await insertPeoples();
-      newPeople.email = 'invalidEmail';
+      await insertPeoples([peopleOne]);
+      newPeople.email = 'emailInválido';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
     });
@@ -73,14 +73,14 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 400 se o comprimento da senha for menor que 6 caracteres', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleOne]);
       newPeople.senha = 'pass1';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
     });
 
     test('deve retornar o erro 400 se a senha não contiver letras e números', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleOne]);
       newPeople.senha = 'password';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
@@ -91,14 +91,14 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 400 se o formato do cpf não for xxx.xxx.xxx-xx', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleOne]);
       newPeople.cpf = '131.137.810-999';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
     });
 
     test('deve retornar o erro 400 se a data_nascimento for menor que 18 anos', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleOne]);
       newPeople.data_nascimento = '03/01/2017';
 
       await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
@@ -109,11 +109,7 @@ describe('People routes', () => {
     test('deve retornar 200 e aplicar as opções de consulta padrão', async () => {
       await insertPeoples([peopleOne, peopleTwo]);
 
-      const res = await request(app)
-        .get('/api/v1/people')
-        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
-        .send()
-        .expect(httpStatus.OK);
+      const res = await request(app).get('/api/v1/people').send().expect(httpStatus.OK);
 
       expect(res.body).toEqual({
         pessoas: expect.any(Array),

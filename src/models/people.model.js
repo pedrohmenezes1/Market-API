@@ -11,6 +11,7 @@ const peopleSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      minlength: 5,
     },
     cpf: {
       type: String,

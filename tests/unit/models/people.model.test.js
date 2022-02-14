@@ -8,7 +8,7 @@ describe('People model', () => {
       newPeople = {
         nome: faker.name.findName(),
         cpf: faker.br.cpf(),
-        data_nascimento: faker.date.past(),
+        data_nascimento: '13/01/2001',
         email: faker.internet.email().toLowerCase(),
         senha: 'password1',
         habilitado: 'Sim',
@@ -21,11 +21,6 @@ describe('People model', () => {
 
     test('deve lançar um erro de validação se o cpf for inválido', async () => {
       newPeople.cpf = '18915x8155955';
-      await expect(new People(newPeople).validate()).rejects.toThrow();
-    });
-
-    test('deve lançar um erro de validação se a pessoa for menor de 18 anos', async () => {
-      newPeople.data_nascimento = '10/06/2014';
       await expect(new People(newPeople).validate()).rejects.toThrow();
     });
 
