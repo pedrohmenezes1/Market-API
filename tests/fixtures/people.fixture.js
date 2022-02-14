@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const faker = require('faker-br');
 const People = require('../../src/models/people.model');
 
-const senha = 'senha1';
+const senha = 'password1';
 const salt = bcrypt.genSaltSync(8);
 const hashedPassword = bcrypt.hashSync(senha, salt);
 

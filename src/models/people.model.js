@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
-const { cpf } = require('cpf-cnpj-validator');
-const mongoosePaginate = require('mongoose-paginate-v2');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const peopleSchema = mongoose.Schema(
   {
@@ -19,8 +17,9 @@ const peopleSchema = mongoose.Schema(
       unique: true,
       trim: true,
       validate(value) {
-        if (!cpf.isValid(value)) {
-          throw new Error(`Invalid cpf ${value}`);
+        // eslint-disable-next-line no-useless-escape
+        if (!value.match(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/)) {
+          throw new Error('CPF Inválido');
         }
       },
     },
@@ -64,7 +63,7 @@ const peopleSchema = mongoose.Schema(
   }
 );
 
-peopleSchema.plugin(mongoosePaginate);
+peopleSchema.plugin(paginate);
 peopleSchema.plugin(toJSON);
 
 peopleSchema.pre('save', async function encrypted(next) {

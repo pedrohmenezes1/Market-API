@@ -25,7 +25,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar 201 e criar com sucesso um novo usuário se os dados estiverem corretos', async () => {
-      await insertPeoples([peopleOne]);
+      await insertPeoples();
 
       const res = await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.CREATED);
 

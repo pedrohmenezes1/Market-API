@@ -17,26 +17,51 @@ class PeopleRepository {
     return !!people;
   }
 
-  async findPeople(people) {
-    const { page = 1, limit = 100, ...query } = people;
-    return People.paginate(
-      { ...query },
-      { limit: Number(limit), page: Number(page), skip: (Number(page) - 1) * Number(limit) }
-    );
+  /**
+   * Consulta para pessoas
+   * @param {Object} filter - Filtro Mongo
+   * @param {Object} options - Opções de consulta
+   * @param {number} [options.limit] - Número máximo de resultados por página (padrão = 100)
+   * @param {number} [options.offset] - Página atual (padrão = 1)
+   * @returns {Promise<QueryResult>}
+   */
+  async findPeople(filter, options) {
+    const people = await People.paginate(filter, options);
+    return people;
   }
 
+  /**
+   * Consulta por id de pessoas
+   * @param {ObjectId} id
+   * @returns {Promise<People>}
+   */
   async getPeopleId(id) {
     return People.findById(id);
   }
 
+  /**
+   * Consulta por id para pessoas
+   * @param {ObjectId} id
+   * @returns {Promise<People>}
+   */
   async findPeopleById(id) {
-    return this.getPeopleId(id);
+    return People.getPeopleId(id);
   }
 
+  /**
+   * Atualiza pessoas por id
+   * @param {ObjectId} id
+   * @returns {Promise<People>}
+   */
   async updatePeopleById(id) {
-    return this.getPeopleId(id);
+    return People.getPeopleId(id);
   }
 
+  /**
+   * Buscar pessoas por email
+   * @param {string} email
+   * @returns {Promise<People>}
+   */
   async getPeopleByEmail(email) {
     return People.findOne({ email });
   }

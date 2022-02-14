@@ -3,7 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 const pick = require('../utils/pick');
 const MarketError = require('../utils/MarketError');
 const { peopleService } = require('../services');
-const { serialize, paginateSerialize } = require('../serialize/people.serialize');
+const { serialize } = require('../serialize/people.serialize');
 
 const createPeople = catchAsync(async (req, res) => {
   const people = await peopleService.createPeople(req.body);
@@ -12,8 +12,9 @@ const createPeople = catchAsync(async (req, res) => {
 
 const getPeople = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['nome', 'cpf', 'data_nascimento', 'email', 'habilitado']);
-  const people = await peopleService.peopleList(req.query, filter);
-  res.status(200).send(paginateSerialize(people));
+  const options = pick(req.query, ['limit', 'page']);
+  const result = await peopleService.peopleList(filter, options);
+  res.status(200).send(result);
 });
 
 const deletePeople = catchAsync(async (req, res) => {
