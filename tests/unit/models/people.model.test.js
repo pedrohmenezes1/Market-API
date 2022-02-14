@@ -7,7 +7,7 @@ describe('People model', () => {
     beforeEach(() => {
       newPeople = {
         nome: faker.name.findName(),
-        cpf: faker.br.cpf(),
+        cpf: '195.154.252-85',
         data_nascimento: '13/01/2001',
         email: faker.internet.email().toLowerCase(),
         senha: 'password1',

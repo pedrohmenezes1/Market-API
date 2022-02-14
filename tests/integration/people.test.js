@@ -16,7 +16,7 @@ describe('People routes', () => {
     beforeEach(() => {
       newPeople = {
         nome: faker.name.findName(),
-        cpf: faker.br.cpf(),
+        cpf: '192.164.151-99',
         data_nascimento: '23/08/1998',
         email: faker.internet.email().toLowerCase(),
         senha: 'password1',
@@ -25,7 +25,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar 201 e criar com sucesso um novo usuário se os dados estiverem corretos', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleOne]);
 
       const res = await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.CREATED);
 
