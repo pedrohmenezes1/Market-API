@@ -109,17 +109,21 @@ describe('People routes', () => {
     test('deve retornar 200 e aplicar as opções de consulta padrão', async () => {
       await insertPeoples([peopleOne, peopleTwo]);
 
-      const res = await request(app).get('/api/v1/people').send().expect(httpStatus.OK);
+      const res = await request(app)
+        .get('/api/v1/people')
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send()
+        .expect(httpStatus.OK);
 
       expect(res.body).toEqual({
-        pessoas: expect.any(Array),
+        results: expect.any(Array),
         limit: 100,
         total: 1,
         offset: 1,
-        offsets: 1,
+        offsets: 2,
       });
-      expect(res.body.pessoas).toHaveLength(3);
-      expect(res.body.pessoas[0]).toEqual({
+      expect(res.body.results).toHaveLength(2);
+      expect(res.body.results[0]).toEqual({
         id: peopleOne._id.toHexString(),
         nome: peopleOne.nome,
         cpf: peopleOne.cpf,
@@ -146,14 +150,14 @@ describe('People routes', () => {
         .expect(httpStatus.OK);
 
       expect(res.body).toEqual({
-        pessoas: expect.any(Array),
+        results: expect.any(Array),
         limit: 100,
         total: 1,
         offset: 1,
         offsets: 1,
       });
-      expect(res.body.pessoas).toHaveLength(1);
-      expect(res.body.pessoas[0].id).toBe(peopleOne._id.toHexString());
+      expect(res.body.results).toHaveLength(1);
+      expect(res.body.results[0].id).toBe(peopleOne._id.toHexString());
     });
 
     test('deve aplicar corretamente o filtro no campo de cpf', async () => {
@@ -167,37 +171,14 @@ describe('People routes', () => {
         .expect(httpStatus.OK);
 
       expect(res.body).toEqual({
-        pessoas: expect.any(Array),
+        results: expect.any(Array),
         limit: 100,
         total: 1,
         offset: 1,
         offsets: 1,
       });
-      expect(res.body.pessoas).toHaveLength(2);
-      expect(res.body.pessoas[0].id).toBe(peopleOne._id.toHexString());
-      expect(res.body.pessoas[1].id).toBe(peopleTwo._id.toHexString());
-    });
-
-    test('deve aplicar corretamente o filtro no campo de data_nascimento', async () => {
-      await insertPeoples([peopleOne, peopleTwo]);
-
-      const res = await request(app)
-        .get('/api/v1/people')
-        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
-        .query({ data_nascimento: peopleOne.data_nascimento })
-        .send()
-        .expect(httpStatus.OK);
-
-      expect(res.body).toEqual({
-        pessoas: expect.any(Array),
-        limit: 100,
-        total: 1,
-        offset: 1,
-        offsets: 1,
-      });
-      expect(res.body.pessoas).toHaveLength(2);
-      expect(res.body.pessoas[0].id).toBe(peopleOne._id.toHexString());
-      expect(res.body.pessoas[1].id).toBe(peopleTwo._id.toHexString());
+      expect(res.body.results).toHaveLength(1);
+      expect(res.body.results[0].id).toBe(peopleOne._id.toHexString());
     });
 
     test('deve aplicar corretamente o filtro no campo de email', async () => {
@@ -211,15 +192,14 @@ describe('People routes', () => {
         .expect(httpStatus.OK);
 
       expect(res.body).toEqual({
-        pessoas: expect.any(Array),
+        results: expect.any(Array),
         limit: 100,
         total: 1,
         offset: 1,
         offsets: 1,
       });
-      expect(res.body.pessoas).toHaveLength(2);
-      expect(res.body.pessoas[0].id).toBe(peopleOne._id.toHexString());
-      expect(res.body.pessoas[1].id).toBe(peopleTwo._id.toHexString());
+      expect(res.body.results).toHaveLength(1);
+      expect(res.body.results[0].id).toBe(peopleOne._id.toHexString());
     });
 
     test('deve aplicar corretamente o filtro no campo de habilitado', async () => {
@@ -233,15 +213,36 @@ describe('People routes', () => {
         .expect(httpStatus.OK);
 
       expect(res.body).toEqual({
-        pessoas: expect.any(Array),
+        results: expect.any(Array),
         limit: 100,
         total: 1,
         offset: 1,
         offsets: 1,
       });
-      expect(res.body.pessoas).toHaveLength(2);
-      expect(res.body.pessoas[0].id).toBe(peopleOne._id.toHexString());
-      expect(res.body.pessoas[1].id).toBe(peopleTwo._id.toHexString());
+      expect(res.body.results).toHaveLength(1);
+      expect(res.body.results[0].id).toBe(peopleOne._id.toHexString());
+    });
+
+    test('deve limitar a matriz retornada se o parâmetro de limite for especificado', async () => {
+      await insertPeoples([peopleOne, peopleTwo]);
+
+      const res = await request(app)
+        .get('/api/v1/people')
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .query({ limit: 100 })
+        .send()
+        .expect(httpStatus.OK);
+
+      expect(res.body).toEqual({
+        results: expect.any(Array),
+        limit: 100,
+        total: 1,
+        offset: 1,
+        offsets: 1,
+      });
+      expect(res.body.results).toHaveLength(2);
+      expect(res.body.results[0].id).toBe(peopleOne._id.toHexString());
+      expect(res.body.results[1].id).toBe(peopleTwo._id.toHexString());
     });
   });
 

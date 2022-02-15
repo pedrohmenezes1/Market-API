@@ -18,7 +18,9 @@ const createPeople = async (peopleBody) => {
  * Listar pessoas
  * @param {Object} filter - Mongo filter
  * @param {Object} options - Query options
- * @returns {Promise<PeopleRepository>}
+ * @param {number} [options.limit] - Número máximo de resultados por página (padrão = 100)
+ * @param {number} [options.offset] - Página atual (padrão = 1)
+ * @returns {Promise<QueryResult>}
  */
 const peopleList = async (filter, options) => {
   const peopleResult = await PeopleRepository.findPeople(filter, options);
