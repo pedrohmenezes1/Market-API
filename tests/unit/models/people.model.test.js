@@ -54,7 +54,7 @@ describe('People model', () => {
     test('não deve retornar a senha do usuário quando o toJSON for chamado', () => {
       const newPeople = {
         nome: faker.name.findName(),
-        cpf: faker.br.cpf(),
+        cpf: '192.168.232-43',
         data_nascimento: '10/06/2001',
         email: faker.internet.email().toLowerCase(),
         senha: 'password1',
