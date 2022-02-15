@@ -20,7 +20,7 @@ const peopleOne = {
 const peopleTwo = {
   _id: mongoose.Types.ObjectId(),
   nome: faker.name.findName(),
-  cpf: '194.164.151-95',
+  cpf: '194.164.157-95',
   data_nascimento: '13/01/2001',
   email: faker.internet.email().toLowerCase(),
   senha,
