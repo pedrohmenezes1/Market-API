@@ -8,7 +8,7 @@ describe('toJSON plugin', () => {
     connection = mongoose.createConnection();
   });
 
-  it('should replace _id with id', () => {
+  it('deve substituir _id por id', () => {
     const schema = mongoose.Schema();
     schema.plugin(toJSON);
     const Model = connection.model('Model', schema);
@@ -17,7 +17,7 @@ describe('toJSON plugin', () => {
     expect(doc.toJSON()).toHaveProperty('id', doc._id.toString());
   });
 
-  it('should remove __v', () => {
+  it('deve remover __v', () => {
     const schema = mongoose.Schema();
     schema.plugin(toJSON);
     const Model = connection.model('Model', schema);
@@ -25,7 +25,7 @@ describe('toJSON plugin', () => {
     expect(doc.toJSON()).not.toHaveProperty('__v');
   });
 
-  it('should remove createdAt and updatedAt', () => {
+  it('deve remover createdAt e updatedAt', () => {
     const schema = mongoose.Schema({}, { timestamps: true });
     schema.plugin(toJSON);
     const Model = connection.model('Model', schema);
@@ -34,7 +34,7 @@ describe('toJSON plugin', () => {
     expect(doc.toJSON()).not.toHaveProperty('updatedAt');
   });
 
-  it('should remove any path set as private', () => {
+  it('deve remover qualquer caminho definido como privado', () => {
     const schema = mongoose.Schema({
       public: { type: String },
       private: { type: String, private: true },
@@ -46,7 +46,7 @@ describe('toJSON plugin', () => {
     expect(doc.toJSON()).toHaveProperty('public');
   });
 
-  it('should remove any nested paths set as private', () => {
+  it('deve remover quaisquer caminhos aninhados definidos como privados', () => {
     const schema = mongoose.Schema({
       public: { type: String },
       nested: {
@@ -65,7 +65,7 @@ describe('toJSON plugin', () => {
     expect(doc.toJSON()).toHaveProperty('public');
   });
 
-  it('should also call the schema toJSON transform function', () => {
+  it('também deve chamar o esquema para a função de transformação JSON', () => {
     const schema = mongoose.Schema(
       {
         public: { type: String },
