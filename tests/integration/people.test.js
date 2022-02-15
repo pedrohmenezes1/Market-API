@@ -5,7 +5,7 @@ const app = require('../../src/app');
 const setupTestDB = require('../utils/setupTestDB');
 const { People } = require('../../src/models');
 const { peopleOne, peopleTwo, insertPeoples } = require('../fixtures/people.fixture');
-const { peopleOneAccessToken } = require('../fixtures/token.fixture');
+const { peopleOneAccessToken, peopleTwoAccessToken } = require('../fixtures/token.fixture');
 
 setupTestDB();
 
@@ -222,28 +222,6 @@ describe('People routes', () => {
       expect(res.body.results).toHaveLength(1);
       expect(res.body.results[0].id).toBe(peopleOne._id.toHexString());
     });
-
-    test('deve limitar a matriz retornada se o parâmetro de limite for especificado', async () => {
-      await insertPeoples([peopleOne, peopleTwo]);
-
-      const res = await request(app)
-        .get('/api/v1/people')
-        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
-        .query({ limit: 100 })
-        .send()
-        .expect(httpStatus.OK);
-
-      expect(res.body).toEqual({
-        results: expect.any(Array),
-        limit: 100,
-        total: 1,
-        offset: 1,
-        offsets: 1,
-      });
-      expect(res.body.results).toHaveLength(2);
-      expect(res.body.results[0].id).toBe(peopleOne._id.toHexString());
-      expect(res.body.results[1].id).toBe(peopleTwo._id.toHexString());
-    });
   });
 
   describe('GET /api/v1/people/:peopleId', () => {
@@ -274,7 +252,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 400 se peopleId não for um ID válido do mongo', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleOne]);
 
       await request(app)
         .get('/api/v1/people/invalidId')
@@ -284,11 +262,11 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 404 se a pessoa não for encontrada', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleTwo]);
 
       await request(app)
         .get(`/api/v1/people/${peopleOne._id}`)
-        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .set('Authorization', `Bearer ${peopleTwoAccessToken}`)
         .send()
         .expect(httpStatus.NOT_FOUND);
     });
@@ -315,7 +293,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 400 se peopleId não for um ID válido do mongo', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleOne]);
 
       await request(app)
         .delete('/api/v1/people/invalidId')
@@ -325,11 +303,11 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 404 se a pessoa não existir no banco de dados', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleTwo]);
 
       await request(app)
         .delete(`/api/v1/people/${peopleOne._id}`)
-        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .set('Authorization', `Bearer ${peopleTwoAccessToken}`)
         .send()
         .expect(httpStatus.NOT_FOUND);
     });
@@ -340,7 +318,7 @@ describe('People routes', () => {
       await insertPeoples([peopleOne]);
       const updateBody = {
         nome: faker.name.findName(),
-        cpf: faker.br.cpf(),
+        cpf: '184.165.118-84',
         data_nascimento: '23/07/1997',
         email: faker.internet.email().toLowerCase(),
         senha: 'NovaSenha1',
@@ -383,7 +361,7 @@ describe('People routes', () => {
     });
 
     test('deve retornar o erro 400 se peopleId não for um ID válido do mongo', async () => {
-      await insertPeoples();
+      await insertPeoples([peopleOne]);
       const updateBody = { nome: faker.name.findName() };
 
       await request(app)

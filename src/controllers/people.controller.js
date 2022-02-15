@@ -12,7 +12,7 @@ const createPeople = catchAsync(async (req, res) => {
 
 const getPeople = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['nome', 'cpf', 'data_nascimento', 'email', 'habilitado']);
-  const options = pick(req.query, ['limit', 'page']);
+  const options = pick(req.query, ['limit', 'offset']);
   const result = await peopleService.peopleList(filter, options);
   res.status(200).send(result);
 });

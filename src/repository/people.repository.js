@@ -45,7 +45,7 @@ class PeopleRepository {
    * @returns {Promise<People>}
    */
   async findPeopleById(id) {
-    return People.getPeopleId(id);
+    return People.findById(id);
   }
 
   /**
