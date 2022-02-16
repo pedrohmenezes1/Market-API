@@ -48,7 +48,7 @@ const deletePeopleById = async (peopleId) => {
  * @returns {Promise<PeopleRepository>}
  */
 const updatePeopleById = async (peopleId, updateBody) => {
-  const people = await PeopleRepository.getpeopleId(peopleId);
+  const people = await PeopleRepository.getPeopleId(peopleId);
   if (!people) {
     throw new MarketError(httpStatus.NOT_FOUND, 'Usuário não encontrado');
   }
