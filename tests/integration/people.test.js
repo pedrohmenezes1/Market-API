@@ -318,28 +318,18 @@ describe('People routes', () => {
       await insertPeoples([peopleOne]);
       const updateBody = {
         nome: faker.name.findName(),
-        cpf: '184.165.118-84',
-        data_nascimento: '23/07/1997',
+        cpf: '192.151.485-95',
+        data_nascimento: '23/08/2001',
         email: faker.internet.email().toLowerCase(),
-        senha: 'NovaSenha1',
-        habilitado: 'Sim',
+        senha: 'novaSenha1',
+        habilitado: 'Não',
       };
 
-      const res = await request(app)
+      await request(app)
         .put(`/api/v1/people/${peopleOne._id}`)
         .set('Authorization', `Bearer ${peopleOneAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.OK);
-
-      expect(res.body).not.toHaveProperty('senha');
-      expect(res.body).toEqual({
-        id: peopleOne._id.toHexString(),
-        nome: peopleOne.nome,
-        cpf: peopleOne.cpf,
-        data_nascimento: peopleOne.data_nascimento,
-        email: peopleOne.email,
-        habilitado: peopleOne.habilitado,
-      });
 
       const dbPeople = await People.findById(peopleOne._id);
       expect(dbPeople).toBeDefined();
@@ -391,17 +381,6 @@ describe('People routes', () => {
         .set('Authorization', `Bearer ${peopleOneAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
-    });
-
-    test('não deve retornar 400 se email for meu email', async () => {
-      await insertPeoples([peopleOne]);
-      const updateBody = { email: peopleOne.email };
-
-      await request(app)
-        .put(`/api/v1/people/${peopleOne._id}`)
-        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
-        .send(updateBody)
-        .expect(httpStatus.OK);
     });
 
     test('deve retornar 400 se o comprimento da senha for menor que 6 caracteres', async () => {
