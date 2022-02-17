@@ -24,6 +24,7 @@ Tabela de conteúdos
    * [Comandos](#comandos)
    * [Estrutura](#estrutura)
    * [Endpoints](#endpoints)
+   * [Payloads](#payloads)
 <!--te-->
 
 Começando
@@ -190,6 +191,80 @@ Endpoints
 **Authentication routes**:\
 `POST /v1/auth/authenticate` - logar(gera um token)
 
+Payloads
+=========
+
+| Método | Descrição |
+|---|---|
+| `POST` | Utilizado para cadastrar uma nova pessoa. |
+
++ 📙: [POST] http://localhost:3000/api/v1/people
++ Request (application/json)
++ Body
+
+     ```json
+   {
+    "nome": "pedro henriquee",
+    "cpf": "197.168.434-95",
+    "data_nascimento": "03/01/2003",
+    "email": "pedro.mka.13a3@hatmail.com",
+    "senha": "12345a",
+    "habilitado": "Sim"
+   }
+
+### Resposta
+
+| Código | Descrição |
+|---|---|
+| `201` | Pessoa cadastrada com sucesso (success).|
+| `400` | Erro ao registrar uma nova pessoa(bad request).|
+
++ Retorno
+
+     ```json
+  {
+    "nome": "pedro henriqueee",
+    "cpf": "197.168.434-95",
+    "data_nascimento": "03/01/2003",
+    "email": "pedro.mka.13a@hatmail.com",
+    "habilitado": "Sim",
+    "id": "620d7e0483939f1e1c8b90bf"
+  }
+| Método | Descrição |
+|---|---|
+| `PUT` | Utilizado para atualizar uma pessoa. |
+  + 📙: [PUT] http://localhost:3000/api/v1/people/:peopleId
++ Request (application/json)
++ Body
+
+     ```json
+   {
+    "nome": "pedro henriquee",
+    "cpf": "197.168.435-95",
+    "data_nascimento": "03/01/2003",
+    "email": "pedro.mka.13a3@hatmail.com",
+    "senha": "12345a",
+    "habilitado": "Sim"
+   }
+
+### Resposta
+
+| Código | Descrição |
+|---|---|
+| `201` | OK (success).|
+| `400` | Erro ao atualizar uma nova pessoa(bad request).|
+
++ Retorno
+
+     ```json
+  {
+    "nome": "pedro henriqueee",
+    "cpf": "197.168.435-95",
+    "data_nascimento": "03/01/2003",
+    "email": "pedro.mka.13a@hatmail.com",
+    "habilitado": "Sim",
+    "id": "620d7e0483939f1e1c8b90bf"
+  }
 <div align="center">
   <img src="https://user-images.githubusercontent.com/83426602/148673032-78ed82b0-7074-417d-9da5-c183eb915789.gif" width="600px"  />
  </div>
