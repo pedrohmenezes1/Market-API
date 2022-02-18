@@ -54,22 +54,22 @@ const updateCarsById = async (carsId, updateBody) => {
 
 /**
  * Burcar carro por id
- * @param {ObjectId} id
+ * @param {ObjectId} carsId
  * @returns {Promise<carsRepository>}
  */
-const getCarsById = async (id) => {
-  return carsRepository.getCarsId(id);
+const getCarsById = async (carsId) => {
+  return carsRepository.getCarsId(carsId);
 };
 
 /**
  * Atualizar acessórios
- * @param {ObjectId} id
+ * @param {ObjectId} carsId
  * @param {ObjectId} accessoryId
  * @param {Object} updateBody
  * @returns {Promise<Cars>}
  */
-const accessoryUpdate = async (id, accessoryId, updateBody) => {
-  const carsResult = await carsRepository.updateAccessory(id, accessoryId, updateBody);
+const accessoryUpdate = async (carsId, accessoryId, updateBody) => {
+  const carsResult = await carsRepository.updateAccessory(carsId, accessoryId, updateBody);
   return carsResult;
 };
 

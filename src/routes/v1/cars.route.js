@@ -16,4 +16,7 @@ router
   .delete(auth, validate(carsValidation.deleteCars), carsController.deleteCars)
   .put(auth, validate(carsValidation.updateCars), carsController.updateCars)
   .get(auth, validate(carsValidation.getCars), carsController.getCarsId);
+router
+  .route('/:carsId/acessorios/:accessoryId')
+  .patch(auth, validate(carsValidation.updateAccessory), carsController.updateAccessory);
 module.exports = router;

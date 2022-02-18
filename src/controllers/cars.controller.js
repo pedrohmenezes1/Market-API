@@ -36,7 +36,7 @@ const getCarsId = catchAsync(async (req, res) => {
 });
 
 const updateAccessory = catchAsync(async (req, res) => {
-  const result = await carsService.accessoryUpdate(req.params.id, req.params.accessoryId, req.body);
+  const result = await carsService.accessoryUpdate(req.params.carsId, req.params.accessoryId, req.body);
   if (!result) {
     throw new MarketError(httpStatus.NOT_FOUND, 'Acessório ou carro não encontrado');
   }
