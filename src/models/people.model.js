@@ -67,27 +67,6 @@ const peopleSchema = mongoose.Schema(
 peopleSchema.plugin(paginate);
 peopleSchema.plugin(toJSON);
 
-/**
- * Verifica o email
- * @param {string} email - Email de pessoas
- * @param {ObjectId} [excludePeopleId] - O id de pessoa a ser excluído
- * @returns {Promise<boolean>}
- */
-peopleSchema.statics.isEmailTaken = async function (email, excludePeopleId) {
-  const people = await this.findOne({ email, _id: { $ne: excludePeopleId } });
-  return !!people;
-};
-
-/**
- * Verifica se as senhas batem
- * @param {string} senha
- * @returns {Promise<boolean>}
- */
-peopleSchema.methods.isPasswordMatch = async function (senha) {
-  const people = this;
-  return bcrypt.compare(senha, people.senha);
-};
-
 peopleSchema.pre('save', async function (next) {
   const people = this;
   if (people.isModified('senha')) {

@@ -1,17 +1,17 @@
 const httpStatus = require('http-status');
-const PeopleRepository = require('../repository/people.repository');
+const peopleRepository = require('../repository/people.repository');
 const MarketError = require('../utils/MarketError');
 
 /**
  * Criar people
  * @param {Object} peopleBody
- * @returns {Promise<PeopleRepository>}
+ * @returns {Promise<peopleRepository>}
  */
 const createPeople = async (peopleBody) => {
-  if (await PeopleRepository.isEmailTaken(peopleBody.email)) {
+  if (await peopleRepository.isEmailTaken(peopleBody.email)) {
     throw new MarketError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
-  return PeopleRepository.createPeople(peopleBody);
+  return peopleRepository.createPeople(peopleBody);
 };
 
 /**
@@ -23,56 +23,56 @@ const createPeople = async (peopleBody) => {
  * @returns {Promise<QueryResult>}
  */
 const peopleList = async (filter, options) => {
-  const peopleResult = await PeopleRepository.findPeople(filter, options);
+  const peopleResult = await peopleRepository.findPeople(filter, options);
   return peopleResult;
 };
 
 /**
  * Deletar pessoa por id
  * @param {ObjectId} peopleId
- * @returns {Promise<PeopleRepository>}
+ * @returns {Promise<peopleRepository>}
  */
 const deletePeopleById = async (peopleId) => {
-  const people = await PeopleRepository.findPeopleById(peopleId);
-  if (!people) {
+  const peopleResult = await peopleRepository.findPeopleById(peopleId);
+  if (!peopleResult) {
     throw new MarketError(httpStatus.NOT_FOUND, 'Usuário não encontrado');
   }
-  await people.remove();
-  return people;
+  await peopleResult.remove();
+  return peopleResult;
 };
 
 /**
  * Atulizar pessoas por id
  * @param {ObjectId} peopleId
  * @param {Object} updateBody
- * @returns {Promise<PeopleRepository>}
+ * @returns {Promise<peopleRepository>}
  */
 const updatePeopleById = async (peopleId, updateBody) => {
-  const people = await PeopleRepository.getPeopleId(peopleId);
-  if (!people) {
+  const peopleResult = await peopleRepository.getPeopleId(peopleId);
+  if (!peopleResult) {
     throw new MarketError(httpStatus.NOT_FOUND, 'Usuário não encontrado');
   }
-  Object.assign(people, updateBody);
-  await people.save();
-  return people;
+  Object.assign(peopleResult, updateBody);
+  await peopleResult.save();
+  return peopleResult;
 };
 
 /**
  * Burcar pessoa por id
  * @param {ObjectId} id
- * @returns {Promise<PeopleRepository>}
+ * @returns {Promise<peopleRepository>}
  */
 const getPeopleById = async (id) => {
-  return PeopleRepository.getPeopleId(id);
+  return peopleRepository.getPeopleId(id);
 };
 
 /**
  * Get people by email
  * @param {string} email
- * @returns {Promise<PeopleRepository>}
+ * @returns {Promise<peopleRepository>}
  */
 const getPeopleByEmail = async (email) => {
-  return PeopleRepository.getPeopleByEmail({ email });
+  return peopleRepository.getPeopleByEmail({ email });
 };
 
 module.exports = {

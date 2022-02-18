@@ -13,7 +13,7 @@ const createPeople = {
     data_nascimento: Joi.date().format('DD/MM/YYYY').raw().max('now').max(cutoffDate),
     email: Joi.string().required().email(),
     senha: Joi.string().required().custom(senha),
-    habilitado: Joi.string().required().valid('Sim', 'Não'),
+    habilitado: Joi.string().required(),
   }),
 };
 
@@ -40,7 +40,7 @@ const updatePeople = {
     data_nascimento: Joi.date().format('DD/MM/YYYY').raw().max('now').max(cutoffDate),
     email: Joi.string().required().email(),
     senha: Joi.string().required().custom(senha),
-    habilitado: Joi.string().required().valid('Sim', 'Não'),
+    habilitado: Joi.string().required(),
   }),
 };
 

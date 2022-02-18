@@ -36,14 +36,14 @@ const getCarsId = async (id) => {
  * Atualizar acessórios
  * @param {ObjectId} id
  * @param {ObjectId} acessoryId
- * @param {Object} useful
+ * @param {Object} updateBody
  * @returns {Promise<Cars>}
  */
-const updateAccessory = async (id, acessoryId, useful) => {
+const updateAccessory = async (id, accessoryId, updateBody) => {
   return Cars.findByIdAndUpdate(
     id,
-    { $set: { 'acessorios.$[outer].descricao': useful.descricao } },
-    { arrayFilters: [{ 'outer.id': acessoryId }] },
+    { $set: { 'acessorios.$[outer].descricao': updateBody.descricao } },
+    { arrayFilters: [{ 'outer.id': accessoryId }] },
     { upsert: true, returnNewDocument: true }
   );
 };
