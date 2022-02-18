@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate-v2');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const carsSchema = mongoose.Schema(
   {
@@ -24,9 +23,15 @@ const carsSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    acessorios: {
-      type: Array,
-    },
+    acessorios: [
+      {
+        descricao: {
+          type: String,
+          trim: true,
+          required: true,
+        },
+      },
+    ],
   },
   {
     versionKey: false,
@@ -35,8 +40,7 @@ const carsSchema = mongoose.Schema(
 );
 
 carsSchema.plugin(toJSON);
-
-carsSchema.plugin(mongoosePaginate);
+carsSchema.plugin(paginate);
 
 /**
  * @typedef Cars

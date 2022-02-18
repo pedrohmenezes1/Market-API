@@ -28,7 +28,7 @@ const carsList = async (filter, options) => {
  * @returns {Promise<CarsRepository>}
  */
 const deleteCarsById = async (carsId) => {
-  const cars = await CarsRepository.findCarsById(carsId);
+  const cars = await CarsRepository.getCarsId(carsId);
   if (!cars) {
     throw new MarketError(httpStatus.NOT_FOUND, 'Carro não encontrado');
   }

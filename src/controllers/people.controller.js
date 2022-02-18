@@ -30,7 +30,7 @@ const updatePeople = catchAsync(async (req, res) => {
 const getPeopleId = catchAsync(async (req, res) => {
   const people = await peopleService.getPeopleById(req.params.peopleId);
   if (!people) {
-    throw new MarketError(httpStatus.NOT_FOUND, 'Usuário não encontrado');
+    throw new MarketError(httpStatus.NOT_FOUND, 'Pessoa não encontrada');
   }
   res.status(200).send(serialize(people));
 });
