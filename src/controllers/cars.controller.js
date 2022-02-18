@@ -6,8 +6,8 @@ const { carsService } = require('../services');
 const MarketError = require('../utils/MarketError');
 
 const createCars = catchAsync(async (req, res) => {
-  const car = await carsService.createCars(req.body);
-  res.status(httpStatus.CREATED).send(serialize(car));
+  const result = await carsService.createCars(req.body);
+  res.status(httpStatus.CREATED).send(serialize(result));
 });
 
 const getCars = catchAsync(async (req, res) => {
@@ -23,16 +23,24 @@ const deleteCars = catchAsync(async (req, res) => {
 });
 
 const updateCars = catchAsync(async (req, res) => {
-  const car = await carsService.updateCarsById(req.params.carsId, req.body);
-  res.status(200).send(serialize(car));
+  const result = await carsService.updateCarsById(req.params.carsId, req.body);
+  res.status(200).send(serialize(result));
 });
 
 const getCarsId = catchAsync(async (req, res) => {
-  const car = await carsService.getCarsById(req.params.carsId);
-  if (!car) {
+  const result = await carsService.getCarsById(req.params.carsId);
+  if (!result) {
     throw new MarketError(httpStatus.NOT_FOUND, 'Carro não encontrado');
   }
-  res.status(200).send(serialize(car));
+  res.status(200).send(serialize(result));
+});
+
+const updateAccessory = catchAsync(async (req, res) => {
+  const result = await carsService.accessoryUpdate(req.params.id, req.params.accessoryId, req.body);
+  if (!result) {
+    throw new MarketError(httpStatus.NOT_FOUND, 'Acessório não encontrado');
+  }
+  res.status(200).send(result);
 });
 
 module.exports = {
@@ -41,4 +49,5 @@ module.exports = {
   deleteCars,
   updateCars,
   getCarsId,
+  updateAccessory,
 };
