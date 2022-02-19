@@ -7,18 +7,17 @@ const createCars = {
   body: Joi.object().keys({
     modelo: Joi.string().required().min(6).trim(),
     cor: Joi.string().required().min(4).trim(),
-    ano: Joi.number().integer().min(1950).max(currentYear).trim().required(),
+    ano: Joi.number().integer().min(1950).max(currentYear).required(),
     acessorios: Joi.array()
       .required()
-      .trim()
       .min(1)
       .items(
         Joi.object({
-          descricao: Joi.string().trim(),
+          descricao: Joi.string(),
         })
       )
       .unique((a, b) => a.descricao === b.descricao),
-    quantidadePassageiros: Joi.number().required().min(1).positive().trim(),
+    quantidadePassageiros: Joi.number().required().min(1).positive(),
   }),
 };
 
@@ -48,10 +47,9 @@ const updateCars = {
   body: Joi.object().keys({
     modelo: Joi.string().optional().min(6).trim(),
     cor: Joi.string().optional().min(4).trim(),
-    ano: Joi.number().integer().min(1950).max(currentYear).optional().trim(),
+    ano: Joi.number().integer().min(1950).max(currentYear).optional(),
     acessorios: Joi.array()
       .optional()
-      .trim()
       .min(1)
       .items(
         Joi.object({
@@ -59,7 +57,7 @@ const updateCars = {
         })
       )
       .unique((a, b) => a.descricao === b.descricao),
-    quantidadePassageiros: Joi.number().required().min(1).positive().trim(),
+    quantidadePassageiros: Joi.number().required().min(1).positive(),
   }),
 };
 
@@ -69,12 +67,11 @@ const updateAccessory = {
     accessoryId: Joi.required().custom(objectId),
   }),
   body: Joi.object().keys({
-    modelo: Joi.string().optional()().min(6).trim(),
+    modelo: Joi.string().optional().min(6).trim(),
     cor: Joi.string().optional().min(4).trim(),
-    ano: Joi.number().integer().min(1950).max(currentYear).optional().trim(),
+    ano: Joi.number().integer().min(1950).max(currentYear).optional(),
     acessorios: Joi.array()
       .required()
-      .trim()
       .min(1)
       .items(
         Joi.object({
@@ -82,7 +79,7 @@ const updateAccessory = {
         })
       )
       .unique((a, b) => a.descricao === b.descricao),
-    quantidadePassageiros: Joi.number().optional().min(1).positive().trim(),
+    quantidadePassageiros: Joi.number().optional().min(1).positive(),
   }),
 };
 module.exports = {
