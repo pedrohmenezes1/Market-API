@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const MarketError = require('../utils/MarketError');
 const catchAsync = require('../utils/catchAsync');
 const pick = require('../utils/pick');
 const { rentalService } = require('../services');
@@ -27,7 +28,15 @@ const getRental = catchAsync(async (req, res) => {
   res.status(200).send(result);
 });
 
+const getRentalId = catchAsync(async (req, res) => {
+  const result = await rentalService.getRentalById(req.params.rentalId);
+  if (!result) {
+    throw new MarketError(httpStatus.NOT_FOUND, 'Locadora não encontrada');
+  }
+  res.status(200).send(serialize(result));
+});
 module.exports = {
   createRental,
   getRental,
+  getRentalId,
 };
