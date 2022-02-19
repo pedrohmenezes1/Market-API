@@ -3,7 +3,7 @@ const { carsRepository } = require('../repository');
 const MarketError = require('../utils/MarketError');
 
 /**
- * Criar um carro
+ * Cadastrar um carro
  * @param {Object} carsBody
  * @returns {Promise<carsRepository>}
  */
@@ -37,7 +37,7 @@ const deleteCarsById = async (carsId) => {
 };
 
 /**
- * Atulizar carros por id
+ * Atualizar carros por id
  * @param {ObjectId} carsId
  * @param {Object} updateBody
  * @returns {Promise<carsRepository>}
@@ -53,7 +53,7 @@ const updateCarsById = async (carsId, updateBody) => {
 };
 
 /**
- * Burcar carro por id
+ * Buscar carro por id
  * @param {ObjectId} carsId
  * @returns {Promise<carsRepository>}
  */

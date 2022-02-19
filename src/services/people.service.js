@@ -3,7 +3,7 @@ const { peopleRepository } = require('../repository');
 const MarketError = require('../utils/MarketError');
 
 /**
- * Cadastra pessoa
+ * Cadastra pessoas
  * @param {Object} peopleBody
  * @returns {Promise<peopleRepository>}
  */
@@ -28,7 +28,7 @@ const peopleList = async (filter, options) => {
 };
 
 /**
- * Deletar pessoa por id
+ * Deletar pessoas por id
  * @param {ObjectId} peopleId
  * @returns {Promise<peopleRepository>}
  */
@@ -42,7 +42,7 @@ const deletePeopleById = async (peopleId) => {
 };
 
 /**
- * Atulizar pessoas por id
+ * Atualizar pessoas por id
  * @param {ObjectId} peopleId
  * @param {Object} updateBody
  * @returns {Promise<peopleRepository>}
@@ -58,7 +58,7 @@ const updatePeopleById = async (peopleId, updateBody) => {
 };
 
 /**
- * Burcar pessoa por id
+ * Buscar pessoa por id
  * @param {ObjectId} id
  * @returns {Promise<peopleRepository>}
  */
