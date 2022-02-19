@@ -44,24 +44,6 @@ const getPeopleId = async (id) => {
 };
 
 /**
- * Consulta por id para pessoas
- * @param {ObjectId} id
- * @returns {Promise<People>}
- */
-const findPeopleById = async (id) => {
-  return People.findById(id);
-};
-
-/**
- * Atualiza pessoas por id
- * @param {ObjectId} id
- * @returns {Promise<People>}
- */
-const updatePeopleById = async (id) => {
-  return People.findById(id);
-};
-
-/**
  * Buscar pessoas por email
  * @param {string} email
  * @returns {Promise<People>}
@@ -75,7 +57,5 @@ module.exports = {
   isEmailTaken,
   findPeople,
   getPeopleId,
-  findPeopleById,
-  updatePeopleById,
   getPeopleByEmail,
 };

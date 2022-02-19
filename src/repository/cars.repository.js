@@ -39,11 +39,11 @@ const getCarsId = async (id) => {
  * @param {Object} updateBody
  * @returns {Promise<Cars>}
  */
-const updateAccessory = async (carsId, accessoryId, updateBody) => {
+const updateAccessory = async (id, accessoryId, updateBody) => {
   return Cars.findByIdAndUpdate(
-    carsId,
+    id,
     { $set: { 'acessorios.$[outer].descricao': updateBody.descricao } },
-    { arrayFilters: [{ 'outer.carsId': accessoryId }] },
+    { arrayFilters: [{ 'outer.id': accessoryId }] },
     { upsert: true, returnNewDocument: true }
   );
 };
