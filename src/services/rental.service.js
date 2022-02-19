@@ -4,7 +4,7 @@ const MarketError = require('../utils/MarketError');
 const viaCep = require('../utils/external.API');
 
 /**
- * Cadastra locadora
+ * Cadastra uma locadora
  * @param {Object} prentalBody
  * @returns {Promise<enderecos>}
  */
