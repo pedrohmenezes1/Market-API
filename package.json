@@ -26,6 +26,7 @@
   "dependencies": {
     "@joi/date": "^2.1.0",
     "@types/jest": "^27.4.0",
+    "axios": "^0.26.0",
     "bcryptjs": "^2.4.3",
     "br-validator": "^4.1.0",
     "compression": "^1.7.4",
