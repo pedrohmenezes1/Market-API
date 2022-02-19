@@ -14,7 +14,7 @@ const peopleSchema = mongoose.Schema(
     cpf: {
       type: String,
       required: true,
-      unique: true,
+      unique: [true, 'Cpf já existente no banco de dados'],
       trim: true,
       validate(value) {
         // eslint-disable-next-line no-useless-escape
