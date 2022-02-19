@@ -8,14 +8,12 @@ const peopleSchema = mongoose.Schema(
     nome: {
       type: String,
       required: true,
-      trim: true,
       minlength: 5,
     },
     cpf: {
       type: String,
       required: true,
-      unique: [true, 'Cpf já existente no banco de dados'],
-      trim: true,
+      unique: true,
       validate(value) {
         // eslint-disable-next-line no-useless-escape
         if (!value.match(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/)) {
@@ -24,26 +22,23 @@ const peopleSchema = mongoose.Schema(
       },
     },
     data_nascimento: {
-      type: String,
+      type: Date,
       required: true,
-      trim: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
-      trim: true,
       lowercase: true,
       validate(value) {
         if (!validator.isEmail(value)) {
-          throw new Error('Invalid email');
+          throw new Error('Email inválido');
         }
       },
     },
     senha: {
       type: String,
       required: true,
-      trim: true,
       minlength: 6,
       validate(value) {
         if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
@@ -54,7 +49,6 @@ const peopleSchema = mongoose.Schema(
     },
     habilitado: {
       type: String,
-      trim: true,
       required: true,
       enum: ['sim', 'não'],
     },

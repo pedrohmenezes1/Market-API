@@ -17,8 +17,19 @@ const createPeople = async (peopleBody) => {
  * @returns {Promise<boolean>}
  */
 const isEmailTaken = async (email, excludePeopleId) => {
-  const people = await People.findOne({ email, _id: { $ne: excludePeopleId } });
-  return !!people;
+  const result = await People.findOne({ email, _id: { $ne: excludePeopleId } });
+  return !!result;
+};
+
+/**
+ * Verifica se o cpf já existe
+ * @param {string} cpf - Cpf da pessoa
+ * @param {ObjectId} [excludePeopleId] - O id das pessoas a serem excluídas
+ * @returns {Promise<boolean>}
+ */
+const isCpfTaken = async (cpf, excludePeopleId) => {
+  const result = await People.findOne({ cpf, _id: { $ne: excludePeopleId } });
+  return !!result;
 };
 
 /**
@@ -55,6 +66,7 @@ const getPeopleByEmail = async (email) => {
 module.exports = {
   createPeople,
   isEmailTaken,
+  isCpfTaken,
   findPeople,
   getPeopleId,
   getPeopleByEmail,

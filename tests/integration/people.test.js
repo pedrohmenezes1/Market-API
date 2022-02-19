@@ -20,7 +20,7 @@ describe('People routes', () => {
         data_nascimento: '23/08/1998',
         email: faker.internet.email().toLowerCase(),
         senha: 'password1',
-        habilitado: 'Sim',
+        habilitado: 'sim',
       };
     });
 
@@ -322,7 +322,7 @@ describe('People routes', () => {
         data_nascimento: '23/08/2001',
         email: faker.internet.email().toLowerCase(),
         senha: 'novaSenha1',
-        habilitado: 'Não',
+        habilitado: 'não',
       };
 
       await request(app)

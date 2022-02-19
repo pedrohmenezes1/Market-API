@@ -11,7 +11,7 @@ describe('People model', () => {
         data_nascimento: '13/01/2001',
         email: faker.internet.email().toLowerCase(),
         senha: 'password1',
-        habilitado: 'Sim',
+        habilitado: 'sim',
       };
     });
 
@@ -44,7 +44,7 @@ describe('People model', () => {
       await expect(new People(newPeople).validate()).rejects.toThrow();
     });
 
-    test('deve lançar um erro de validação se habilitado não for Sim ou Não', async () => {
+    test('deve lançar um erro de validação se habilitado não for sim ou Não', async () => {
       newPeople.habilitado = 'invalid';
       await expect(new People(newPeople).validate()).rejects.toThrow();
     });
@@ -58,7 +58,7 @@ describe('People model', () => {
         data_nascimento: '10/06/2001',
         email: faker.internet.email().toLowerCase(),
         senha: 'password1',
-        habilitado: 'Sim',
+        habilitado: 'sim',
       };
       expect(new People(newPeople).toJSON()).not.toHaveProperty('password');
     });

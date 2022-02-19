@@ -14,7 +14,7 @@ const peopleOne = {
   data_nascimento: '13/01/2001',
   email: faker.internet.email().toLowerCase(),
   senha,
-  habilitado: 'Sim',
+  habilitado: 'sim',
 };
 
 const peopleTwo = {
@@ -24,7 +24,7 @@ const peopleTwo = {
   data_nascimento: '13/01/1998',
   email: faker.internet.email().toLowerCase(),
   senha,
-  habilitado: 'Não',
+  habilitado: 'não',
 };
 const insertPeoples = async (peoples) => {
   await People.insertMany(peoples.map((people) => ({ ...people, password: hashedPassword })));
