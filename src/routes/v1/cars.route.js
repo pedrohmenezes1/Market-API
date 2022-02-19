@@ -19,4 +19,5 @@ router
 router
   .route('/:carsId/acessorios/:accessoryId')
   .patch(auth, validate(carsValidation.updateAccessory), carsController.updateAccessory);
+
 module.exports = router;
