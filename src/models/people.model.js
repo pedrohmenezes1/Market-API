@@ -56,7 +56,7 @@ const peopleSchema = mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      enum: ['Sim', 'Não'],
+      enum: ['sim', 'não'],
     },
   },
   {

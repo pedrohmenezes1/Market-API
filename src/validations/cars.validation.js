@@ -5,20 +5,20 @@ const currentYear = new Date().getFullYear();
 
 const createCars = {
   body: Joi.object().keys({
-    modelo: Joi.string().required().min(6),
-    cor: Joi.string().required().min(4),
-    ano: Joi.number().integer().min(1950).max(currentYear),
+    modelo: Joi.string().required().min(6).trim(),
+    cor: Joi.string().required().min(4).trim(),
+    ano: Joi.number().integer().min(1950).max(currentYear).trim().required(),
     acessorios: Joi.array()
       .required()
+      .trim()
       .min(1)
       .items(
         Joi.object({
-          descricao: Joi.string().trim().required(),
+          descricao: Joi.string().trim(),
         })
       )
-      .unique((a, b) => a.descricao === b.descricao)
-      .required(),
-    quantidadePassageiros: Joi.number().required().min(1).positive(),
+      .unique((a, b) => a.descricao === b.descricao),
+    quantidadePassageiros: Joi.number().required().min(1).positive().trim(),
   }),
 };
 
@@ -37,7 +37,7 @@ const getCars = {
 
 const deleteCars = {
   params: Joi.object().keys({
-    carsId: Joi.string().custom(objectId),
+    carsId: Joi.required().custom(objectId),
   }),
 };
 
@@ -46,20 +46,43 @@ const updateCars = {
     carsId: Joi.required().custom(objectId),
   }),
   body: Joi.object().keys({
-    modelo: Joi.string().required().min(6),
-    cor: Joi.string().required().min(4),
-    ano: Joi.number().integer().min(1950).max(currentYear),
+    modelo: Joi.string().optional().min(6).trim(),
+    cor: Joi.string().optional().min(4).trim(),
+    ano: Joi.number().integer().min(1950).max(currentYear).optional().trim(),
     acessorios: Joi.array()
-      .required()
+      .optional()
+      .trim()
       .min(1)
       .items(
         Joi.object({
-          descricao: Joi.string().trim().required(),
+          descricao: Joi.string(),
         })
       )
-      .unique((a, b) => a.descricao === b.descricao)
-      .required(),
-    quantidadePassageiros: Joi.number().required().min(1).positive(),
+      .unique((a, b) => a.descricao === b.descricao),
+    quantidadePassageiros: Joi.number().required().min(1).positive().trim(),
+  }),
+};
+
+const updateAccessory = {
+  params: Joi.object().keys({
+    carsId: Joi.required().custom(objectId),
+    accessoryId: Joi.required().custom(objectId),
+  }),
+  body: Joi.object().keys({
+    modelo: Joi.string().optional()().min(6).trim(),
+    cor: Joi.string().optional().min(4).trim(),
+    ano: Joi.number().integer().min(1950).max(currentYear).optional().trim(),
+    acessorios: Joi.array()
+      .required()
+      .trim()
+      .min(1)
+      .items(
+        Joi.object({
+          descricao: Joi.string(),
+        })
+      )
+      .unique((a, b) => a.descricao === b.descricao),
+    quantidadePassageiros: Joi.number().optional().min(1).positive().trim(),
   }),
 };
 module.exports = {
@@ -67,4 +90,5 @@ module.exports = {
   getCars,
   deleteCars,
   updateCars,
+  updateAccessory,
 };
