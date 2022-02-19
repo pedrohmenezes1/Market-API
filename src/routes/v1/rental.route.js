@@ -1,11 +1,14 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const rentalValidation = require('../../validations/rental.validation');
-const rentalController = require('../../controllers/rental.controller');
+const { rentalValidation } = require('../../validations');
+const { rentalController } = require('../../controllers');
 
 const router = express.Router();
 
-router.route('/').post(auth, validate(rentalValidation.createRental), rentalController.createRental);
+router
+  .route('/')
+  .post(auth, validate(rentalValidation.createRental), rentalController.createRental)
+  .get(auth, validate(rentalValidation.getRental), rentalController.getRental);
 
 module.exports = router;

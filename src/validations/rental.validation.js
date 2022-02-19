@@ -33,7 +33,7 @@ const getRental = {
   }),
 };
 
-module.expots = {
+module.exports = {
   createRental,
   getRental,
 };
