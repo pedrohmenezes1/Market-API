@@ -19,8 +19,8 @@ const createCars = async (carBody) => {
  * @returns {Promise<QueryResult>}
  */
 const findCars = async (filter, options) => {
-  const cars = await Cars.paginate(filter, options);
-  return cars;
+  const result = await Cars.paginate(filter, options);
+  return result;
 };
 
 /**

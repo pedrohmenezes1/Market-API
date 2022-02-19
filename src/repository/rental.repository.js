@@ -15,8 +15,8 @@ const createRental = async (rentalBody) => {
  * @returns {Promise<boolean>}
  */
 const isCnpjTaken = async (cnpj) => {
-  const rental = await this.findOne({ cnpj });
-  return !!rental;
+  const result = await this.findOne({ cnpj });
+  return !!result;
 };
 
 const isMatriz = async (endereco) => {
@@ -29,8 +29,22 @@ const isMatriz = async (endereco) => {
     if (count > 1);
   });
 };
+
+/**
+ * Consulta para locadora
+ * @param {Object} filter - Filtro Mongo
+ * @param {Object} options - Opções de consulta
+ * @param {number} [options.limit] - Número máximo de resultados por página (padrão = 100)
+ * @param {number} [options.offset] - Página atual (padrão = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const findRental = async (filter, options) => {
+  const result = await Rental.paginate(filter, options);
+  return result;
+};
 module.exports = {
   createRental,
   isCnpjTaken,
   isMatriz,
+  findRental,
 };
