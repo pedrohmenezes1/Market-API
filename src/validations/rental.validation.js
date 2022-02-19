@@ -58,9 +58,16 @@ const updateRental = {
     }),
 };
 
+const deleteRental = {
+  params: Joi.object().keys({
+    rentalId: Joi.required().custom(objectId),
+  }),
+};
+
 module.exports = {
   createRental,
   getRental,
   getRentalById,
   updateRental,
+  deleteRental,
 };
