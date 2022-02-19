@@ -5,8 +5,9 @@ const viaCep = require('../utils/external.API');
 
 /**
  * Cadastra uma locadora
- * @param {Object} prentalBody
- * @returns {Promise<enderecos>}
+ * @param {Object} rentalBody
+ * @param {Object} data
+ * @returns {Promise<rentalRepository>}
  */
 const createRental = async (rentalBody, data) => {
   if (await rentalRepository.isCnpjTaken(rentalBody.cnpj)) {
@@ -71,9 +72,24 @@ const updateRentalById = async (rentalId, updateBody) => {
   await rentalResult.save();
   return rentalResult;
 };
+
+/**
+ * Deletar locadora por id
+ * @param {ObjectId} rentalId
+ * @returns {Promise<rentalRepository>}
+ */
+const deleteRentalById = async (rentalId) => {
+  const rentalResult = await rentalRepository.getRentalId(rentalId);
+  if (!rentalResult) {
+    throw new MarketError(httpStatus.NOT_FOUND, 'Locadora não encontrada');
+  }
+  await rentalResult.remove();
+  return rentalResult;
+};
 module.exports = {
   createRental,
   rentalList,
   getRentalById,
   updateRentalById,
+  deleteRentalById,
 };
