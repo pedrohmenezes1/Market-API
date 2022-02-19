@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const peopleRepository = require('../repository/people.repository');
+const { peopleRepository } = require('../repository');
 const MarketError = require('../utils/MarketError');
 
 /**

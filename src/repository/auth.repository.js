@@ -1,4 +1,4 @@
-const People = require('../models/people.model');
+const { People } = require('../models');
 
 /**
  * Verifica senha

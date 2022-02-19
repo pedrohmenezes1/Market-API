@@ -3,6 +3,7 @@ const carsRoute = require('./cars.route');
 const peopleRoute = require('./people.route');
 const authRoute = require('./auth.route');
 const docsRoute = require('./docs.route');
+const rentalRoute = require('./rental.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -19,6 +20,10 @@ const defaultRoutes = [
   {
     path: '/authenticate',
     route: authRoute,
+  },
+  {
+    path: '/rental',
+    route: rentalRoute,
   },
 ];
 

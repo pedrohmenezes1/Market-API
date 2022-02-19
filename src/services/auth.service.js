@@ -1,5 +1,5 @@
 /* eslint-disable no-return-await */
-const authRepository = require('../repository/auth.repository');
+const { authRepository } = require('../repository');
 
 /**
  * Authenticação com email e senha :)

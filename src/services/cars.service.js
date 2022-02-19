@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const carsRepository = require('../repository/cars.repository');
+const { carsRepository } = require('../repository');
 const MarketError = require('../utils/MarketError');
 
 /**

@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const rentalRepository = require('../repository/rental.repository');
+const { rentalRepository } = require('../repository');
 const MarketError = require('../utils/MarketError');
 const viaCep = require('../utils/external.API');
 
