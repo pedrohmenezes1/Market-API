@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const UF = require('../utils/enum.uf');
 const { toJSON, paginate } = require('./plugins');
 
@@ -70,6 +71,7 @@ const rentalSchema = mongoose.Schema({
         trim: true,
       },
       _id: false,
+      timestamps: true,
     },
   ],
 });

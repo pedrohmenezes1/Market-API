@@ -3,13 +3,13 @@ const peopleRepository = require('../repository/people.repository');
 const MarketError = require('../utils/MarketError');
 
 /**
- * Criar people
+ * Cadastra pessoa
  * @param {Object} peopleBody
  * @returns {Promise<peopleRepository>}
  */
 const createPeople = async (peopleBody) => {
   if (await peopleRepository.isEmailTaken(peopleBody.email)) {
-    throw new MarketError(httpStatus.BAD_REQUEST, 'Email already taken');
+    throw new MarketError(httpStatus.BAD_REQUEST, 'Email já existe');
   }
   return peopleRepository.createPeople(peopleBody);
 };
@@ -67,12 +67,12 @@ const getPeopleById = async (peopleId) => {
 };
 
 /**
- * Get people by email
+ * Buscar pessoa por email
  * @param {string} email
  * @returns {Promise<peopleRepository>}
  */
 const getPeopleByEmail = async (email) => {
-  return peopleRepository.getPeopleByEmail({ email });
+  return peopleRepository.getPeopleByEmail(email);
 };
 
 module.exports = {

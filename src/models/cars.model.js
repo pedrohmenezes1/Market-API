@@ -34,7 +34,6 @@ const carsSchema = mongoose.Schema(
     ],
   },
   {
-    versionKey: false,
     timestamps: true,
   }
 );
