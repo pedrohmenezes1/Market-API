@@ -35,8 +35,14 @@ const getRentalId = catchAsync(async (req, res) => {
   }
   res.status(200).send(serialize(result));
 });
+
+const updateRental = catchAsync(async (req, res) => {
+  const result = await rentalService.updateRentalById(req.params.rentalId, req.body);
+  res.status(200).send(serialize(result));
+});
 module.exports = {
   createRental,
   getRental,
   getRentalId,
+  updateRental,
 };
