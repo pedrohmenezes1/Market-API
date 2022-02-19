@@ -48,15 +48,32 @@ const rentalList = async (filter, options) => {
 };
 
 /**
- * Burcar locadora por id
+ * Buscar locadora por id
  * @param {ObjectId} id
  * @returns {Promise<rentalRepository>}
  */
-const getRentalById = async (peopleId) => {
-  return rentalRepository.getRentalId(peopleId);
+const getRentalById = async (rentalId) => {
+  return rentalRepository.getRentalId(rentalId);
+};
+
+/**
+ * Atualizar pessoas por id
+ * @param {ObjectId} rentalId
+ * @param {Object} updateBody
+ * @returns {Promise<rentalRepository>}
+ */
+const updateRentalById = async (rentalId, updateBody) => {
+  const rentalResult = await rentalRepository.getRentalId(rentalId);
+  if (!rentalResult) {
+    throw new MarketError(httpStatus.NOT_FOUND, 'Locadora não encontrada');
+  }
+  Object.assign(rentalResult, updateBody);
+  await rentalResult.save();
+  return rentalResult;
 };
 module.exports = {
   createRental,
   rentalList,
   getRentalById,
+  updateRentalById,
 };
