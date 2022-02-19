@@ -35,12 +35,12 @@ const getPeople = {
 
 const updatePeople = {
   body: Joi.object().keys({
-    nome: Joi.string().required().min(5).trim(),
-    cpf: Joi.string().required().trim(),
-    data_nascimento: Joi.date().format('DD/MM/YYYY').raw().max('now').max(cutoffDate).trim().required(),
-    email: Joi.string().required().email().trim(),
-    senha: Joi.string().required().custom(senha).trim(),
-    habilitado: Joi.string().required().lowercase().trim(),
+    nome: Joi.string().optional().min(5).trim(),
+    cpf: Joi.string().optional().trim(),
+    data_nascimento: Joi.date().format('DD/MM/YYYY').raw().max('now').max(cutoffDate).trim().optional(),
+    email: Joi.string().optional().email().trim(),
+    senha: Joi.string().optional().custom(senha).trim(),
+    habilitado: Joi.string().optional().lowercase().trim(),
   }),
 };
 
