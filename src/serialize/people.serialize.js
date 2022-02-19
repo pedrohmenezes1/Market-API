@@ -1,11 +1,12 @@
+const moment = require('moment');
 // eslint-disable-next-line camelcase
-const serialize = ({ nome, cpf, data_nascimento, email, habilitado, id }) => ({
+const serialize = ({ id, nome, cpf, data_nascimento, email, habilitado }) => ({
+  id,
   nome,
   cpf,
-  data_nascimento,
+  data_nascimento: moment(data_nascimento).utc().format('DD/MM/YYYY'),
   email,
   habilitado,
-  id,
 });
 
 module.exports = { serialize };

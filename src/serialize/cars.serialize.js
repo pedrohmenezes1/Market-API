@@ -1,5 +1,5 @@
-const serialize = ({ _id, modelo, cor, ano, quantidadePassageiros, acessorios }) => ({
-  _id,
+const serialize = ({ id, modelo, cor, ano, quantidadePassageiros, acessorios }) => ({
+  id,
   modelo,
   cor,
   ano,

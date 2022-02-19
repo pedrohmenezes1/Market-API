@@ -34,6 +34,19 @@ const createRental = async (rentalBody, data) => {
   return rentalResult;
 };
 
+/**
+ * Listar locadoras
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {number} [options.limit] - Número máximo de resultados por página (padrão = 100)
+ * @param {number} [options.offset] - Página atual (padrão = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const rentalList = async (filter, options) => {
+  const rentalResult = await rentalRepository.findRental(filter, options);
+  return rentalResult;
+};
 module.exports = {
   createRental,
+  rentalList,
 };

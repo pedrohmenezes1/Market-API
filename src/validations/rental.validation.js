@@ -17,6 +17,23 @@ const createRental = {
   }),
 };
 
+const getRental = {
+  query: Joi.object().keys({
+    nome: Joi.string(),
+    cnpj: Joi.string(),
+    atividades: Joi.string(),
+    endereco: Joi.array().items(
+      Joi.object({
+        cep: Joi.string(),
+        complemento: Joi.string(),
+        number: Joi.string(),
+        isFilial: Joi.string(),
+      })
+    ),
+  }),
+};
+
 module.expots = {
   createRental,
+  getRental,
 };
