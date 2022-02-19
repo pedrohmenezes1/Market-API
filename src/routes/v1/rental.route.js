@@ -11,5 +11,8 @@ router
   .post(auth, validate(rentalValidation.createRental), rentalController.createRental)
   .get(auth, validate(rentalValidation.getRental), rentalController.getRental);
 
-router.route('/:rentalId').get(auth, validate(rentalValidation.getRentalById), rentalController.getRentalId);
+router
+  .route('/:rentalId')
+  .get(auth, validate(rentalValidation.getRentalById), rentalController.getRentalId)
+  .put(auth, validate(rentalValidation.updateRental), rentalController.updateRental);
 module.exports = router;
