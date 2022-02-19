@@ -46,7 +46,17 @@ const rentalList = async (filter, options) => {
   const rentalResult = await rentalRepository.findRental(filter, options);
   return rentalResult;
 };
+
+/**
+ * Burcar locadora por id
+ * @param {ObjectId} id
+ * @returns {Promise<rentalRepository>}
+ */
+const getRentalById = async (peopleId) => {
+  return rentalRepository.getRentalId(peopleId);
+};
 module.exports = {
   createRental,
   rentalList,
+  getRentalById,
 };
