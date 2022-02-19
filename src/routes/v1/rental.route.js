@@ -7,3 +7,5 @@ const rentalController = require('../../controllers/rental.controller');
 const router = express.Router();
 
 router.route('/').post(auth, validate(rentalValidation.createRental), rentalController.createRental);
+
+module.exports = router;
