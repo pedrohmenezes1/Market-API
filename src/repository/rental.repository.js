@@ -42,9 +42,19 @@ const findRental = async (filter, options) => {
   const result = await Rental.paginate(filter, options);
   return result;
 };
+
+/**
+ * Consulta por id de locadora
+ * @param {ObjectId} id
+ * @returns {Promise<Rental>}
+ */
+const getRentalId = async (id) => {
+  return Rental.findById(id);
+};
 module.exports = {
   createRental,
   isCnpjTaken,
   isMatriz,
   findRental,
+  getRentalId,
 };
