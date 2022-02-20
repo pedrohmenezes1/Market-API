@@ -13,7 +13,7 @@ const createCars = catchAsync(async (req, res) => {
 const getCars = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['modelo', 'cor', 'ano', 'acessorios.descricao']);
   const options = pick(req.query, ['limit', 'offset']);
-  const result = await carsService.peopleList(filter, options);
+  const result = await carsService.carsList(filter, options);
   res.status(200).send(result);
 });
 
