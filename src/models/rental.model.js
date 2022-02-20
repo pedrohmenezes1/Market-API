@@ -31,12 +31,11 @@ const rentalSchema = mongoose.Schema(
       {
         cep: {
           type: String,
-          unique: true,
           required: true,
           trim: true,
           validate(value) {
             // eslint-disable-next-line no-useless-escape
-            if (!value.match(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/)) {
+            if (!value.match(/^\d{5}-\d{3}$/)) {
               throw new Error('CEP Inválido');
             }
           },

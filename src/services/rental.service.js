@@ -11,7 +11,7 @@ const viaCep = require('../utils/external.API');
  */
 const createRental = async (rentalBody, data) => {
   if (await rentalRepository.isCnpjTaken(rentalBody.cnpj)) {
-    throw new MarketError(httpStatus.BAD_REQUEST, 'Cnpj já existe');
+    throw new MarketError(httpStatus.CONFLICT, 'Cnpj já registrado');
   }
   if (await rentalRepository.isMatriz(rentalBody.endereco)) {
     throw new MarketError(httpStatus.CONFLICT, 'Apenas uma matriz existente');

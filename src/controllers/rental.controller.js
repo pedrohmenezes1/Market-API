@@ -3,7 +3,7 @@ const MarketError = require('../utils/MarketError');
 const catchAsync = require('../utils/catchAsync');
 const pick = require('../utils/pick');
 const { rentalService } = require('../services');
-const { serialize } = require('../serialize/people.serialize');
+const { serialize } = require('../serialize/rental.serialize');
 
 const createRental = catchAsync(async (req, res) => {
   const result = await rentalService.createRental(req.body);
