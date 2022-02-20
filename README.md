@@ -195,8 +195,23 @@ Endpoints
 **Authentication routes**:\
 `POST /v1/auth/authenticate` - logar(gera um token)
 
+**Rental routes**:\
+`POST api/v1/rental` - cadastrar uma locadora\
+`GET api/v1/rental` - buscar todas as locadoras(com filtros)\
+`GET api/v1/rental/:rentalId` - burcar locadora por id\
+`PATCH api/v1/rental/:rentalId` - atualizar dados de locadora\
+`DELETE /v1/rental/:rentalId` - deletar uma locadora
+
+**Documentation route**:\
+`http://localhost:3000/api/v1/docs/#/` - Web documentation(swagger)
+![Swagger](https://user-images.githubusercontent.com/83426602/154858822-de086906-7759-4e8a-84a7-195d74fed5ff.png)
+
 Payloads
 =========
+
+<div align="center">
+ <h1 align="center">Pessoa</h1>
+</div>
 
 | Método | Descrição |
 |---|---|
@@ -208,12 +223,12 @@ Payloads
 
      ```json
    {
-    "nome": "pedro henriquee",
+    "nome": "pedro henrique",
     "cpf": "197.168.434-95",
     "data_nascimento": "03/01/2003",
-    "email": "pedro.mka.13a3@hatmail.com",
+    "email": "pedro.mk.13@hotmail.com",
     "senha": "12345a",
-    "habilitado": "Sim"
+    "habilitado": "sim"
    }
 
 ### Resposta
@@ -222,17 +237,18 @@ Payloads
 |---|---|
 | `201` | Pessoa cadastrada com sucesso (success).|
 | `400` | Erro ao registrar uma nova pessoa(bad request).|
+| `401` | Pessoa menor de idade(unauthorized).|
 
 + Retorno
 
      ```json
   {
-    "nome": "pedro henriqueee",
+    "id": "620d7e0483939f1e1c8b90bf",
+    "nome": "pedro henrique",
     "cpf": "197.168.434-95",
     "data_nascimento": "03/01/2003",
-    "email": "pedro.mka.13a@hatmail.com",
-    "habilitado": "Sim",
-    "id": "620d7e0483939f1e1c8b90bf"
+    "email": "pedro.mk.13@hotmail.com",
+    "habilitado": "sim"
   }
 | Método | Descrição |
 |---|---|
@@ -243,12 +259,12 @@ Payloads
 
      ```json
    {
-    "nome": "pedro henriquee",
+    "nome": "pedro henrique",
     "cpf": "197.168.435-95",
-    "data_nascimento": "03/01/2003",
-    "email": "pedro.mka.13a3@hatmail.com",
+    "data_nascimento": "03/01/2004",
+    "email": "pedro.mk.13@hotmail.com",
     "senha": "12345a",
-    "habilitado": "Sim"
+    "habilitado": "sim"
    }
 
 ### Resposta
@@ -257,18 +273,124 @@ Payloads
 |---|---|
 | `201` | OK (success).|
 | `400` | Erro ao atualizar uma nova pessoa(bad request).|
-
+| `401` | Pessoa menor de idade(unauthorized).|
 + Retorno
 
      ```json
   {
-    "nome": "pedro henriqueee",
+    "id": "620d7e0483939f1e1c8b90bf",
+    "nome": "pedro henriquee",
     "cpf": "197.168.435-95",
     "data_nascimento": "03/01/2003",
-    "email": "pedro.mka.13a@hatmail.com",
-    "habilitado": "Sim",
-    "id": "620d7e0483939f1e1c8b90bf"
+    "email": "pedro.mka.13@hotmail.com",
+    "habilitado": "sim"
   }
+  
+<div align="center">
+ <h1 align="center">Carros</h1>
+</div>
+
+| Método | Descrição |
+|---|---|
+| `POST` | Utilizado para cadastrar um novo veículo. |
+
++ 📙: [POST] http://localhost:3000/api/v1/car
++ Request (application/json)
++ Body
+
+     ```json
+   {
+    "modelo": "GM S10 2.8",
+    "cor": "Branco",
+    "ano": 2018,
+    "acessorios": [
+        {"descricao": "Ar-condicionado"},
+        {"descricao": "Dir. Hidráulica"}
+    ],
+    "quantidadePassageiros": 5
+    
+    }
+
+### Resposta
+
+| Código | Descrição |
+|---|---|
+| `201` | Veículo cadastrado com sucesso (success).|
+| `400` | Erro ao registrar um novo veículo(bad request).|
+| `401` | Falha de autenticação(unauthorized).|
+
++ Retorno
+
+     ```json
+    {
+    "id": "621278022a3a922c844fae53",
+    "modelo": "GM S10 2.8",
+    "cor": "Branco",
+    "ano": 2018,
+    "acessorios": [
+        {
+            "_id": "621278022a3a922c844fae54",
+            "descricao": "Ar-condicionado"
+        },
+        {
+            "_id": "621278022a3a922c844fae55",
+            "descricao": "Dir. Hidráulica"
+        }
+    ],
+    "quantidadePassageiros": 5
+    }
+    
+| Método | Descrição |
+|---|---|
+| `PUT` | Utilizado para atualizar um veículo. |
+  + 📙: [PUT] http://localhost:3000/api/v1/car/:carsId
++ Request (application/json)
++ Body
+
+     ```json
+   {
+    "modelo": "Fusca",
+    "cor": "Preto",
+    "ano": 2004,
+    "acessorios": [
+        {"descricao": "Ar-condicionado"},
+        {"descricao": "Dir. Hidráulica"}
+    ],
+    "quantidadePassageiros": 5
+    }
+
+### Resposta
+
+| Código | Descrição |
+|---|---|
+| `201` | OK (success).|
+| `400` | Erro ao atualizar o veículo(bad request).|
+| `401` | Falha na autenticação(unauthorized).|
++ Retorno
+
+     ```json
+    {
+    "id": "6212680e5d8ecd1f983a0f90",
+    "modelo": "Fusca",
+    "cor": "Preto",
+    "ano": 2004,
+    "acessorios": [
+        {
+            "_id": "621289d8903d1c3e60bab2a8",
+            "descricao": "Ar-condicionado"
+        },
+        {
+            "_id": "621289d8903d1c3e60bab2a9",
+            "descricao": "Dir. Hidráulica"
+        }
+    ],
+    "quantidadePassageiros": 5
+    }
+    
+    
+
+
+    
 <div align="center">
   <img src="https://user-images.githubusercontent.com/83426602/148673032-78ed82b0-7074-417d-9da5-c183eb915789.gif" width="600px"  />
  </div>
