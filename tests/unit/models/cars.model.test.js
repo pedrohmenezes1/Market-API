@@ -32,9 +32,8 @@ describe('Cars model', () => {
       newCar.cor = 'cor';
       await expect(new Cars(newCar).validate()).rejects.toThrow();
     });
-
-    test('deve lançar um erro de validação se não tiver ao menos 1 acessório no veículo', async () => {
-      newCar.acessorios.descricao = null;
+    test('deve lançar um erro de validação se a quantidadePassageiros não for número', async () => {
+      newCar.quantidadePassageiros = 'invalidPassageiros';
       await expect(new Cars(newCar).validate()).rejects.toThrow();
     });
   });

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const faker = require('faker-br');
-const People = require('../../src/models/people.model');
+const { People } = require('../../src/models');
 
 const senha = 'password1';
 const salt = bcrypt.genSaltSync(8);

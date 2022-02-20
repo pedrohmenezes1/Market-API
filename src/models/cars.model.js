@@ -33,6 +33,7 @@ const carsSchema = mongoose.Schema(
       {
         descricao: {
           type: String,
+          min: 1,
           trim: true,
           required: true,
         },
