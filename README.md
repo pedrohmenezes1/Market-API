@@ -49,12 +49,15 @@ Dependências
 | :-----------------| :-------------------------|
 | express             |  4.17.1
 | mongoose           |  5.7.7
+| axios           |  0.26.0
 | bcrypt           |  2.4.3
 | compreesion           |  1.7.4
+| cors           |  2.8.5
 | cross-env           |  7.0.0
 | dotenv           |  10.0.0
 | express-mongo-sanitize           |  2.0.0
 | express-rate-limit           |  5.0.0
+| faker-br           |  0.4.1
 | helmet           |  4.1.0
 | http-status       |  1.4.0
 | joi             |  17.3.0
@@ -64,6 +67,7 @@ Dependências
 | morgan          |  1.9.1
 | passport          |  0.4.0
 | passport-jwt          |  4.0.0
+| swagger-ui-expres          |  4.3.0
 | validator          |  13.0.0
 | winston          |  3.2.1
 | xss-clean          |  0.1.1
