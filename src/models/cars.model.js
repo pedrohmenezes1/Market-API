@@ -8,6 +8,7 @@ const carsSchema = mongoose.Schema(
     modelo: {
       type: String,
       required: true,
+      minlength: 6,
       trim: true,
     },
     cor: {

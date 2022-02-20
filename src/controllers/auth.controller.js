@@ -13,10 +13,8 @@ const authenticate = catchAsync(async (req, res) => {
   if (!(await bcrypt.compare(senha, people.senha))) {
     throw new MarketError(httpStatus.UNAUTHORIZED, 'Senha incorreta');
   }
-  people.senha = undefined;
   const tokens = await tokenService.generateAuthTokens(people);
-  req.headers.authorization = `Bearer ${tokens}`;
-  res.status(httpStatus.CREATED).json({ email, tokens });
+  res.status(httpStatus.CREATED).send({ email, tokens });
 });
 
 module.exports = {

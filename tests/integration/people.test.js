@@ -18,7 +18,7 @@ describe('People routes', () => {
         nome: faker.name.findName(),
         cpf: '192.164.151-99',
         data_nascimento: '10/06/2001',
-        email: faker.internet.email().toLowerCase(),
+        email: 'pedro.mk.12@hotmail.com',
         senha: 'password1',
         habilitado: 'sim',
       };

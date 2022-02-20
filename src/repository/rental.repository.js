@@ -15,7 +15,7 @@ const createRental = async (rentalBody) => {
  * @returns {Promise<boolean>}
  */
 const isCnpjTaken = async (cnpj) => {
-  const result = await this.findOne({ cnpj });
+  const result = await Rental.findOne({ cnpj });
   return !!result;
 };
 

@@ -17,7 +17,7 @@ const carOne = {
 
 const carTwo = {
   _id: mongoose.Types.ObjectId(),
-  modelo: 'Fusca',
+  modelo: 'Fiat Uno',
   cor: 'Branco',
   ano: 2010,
   acessorios: [{ descricao: 'Ar-condicionado' }, { descricao: 'Vidro elétrico' }],

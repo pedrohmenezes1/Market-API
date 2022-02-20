@@ -4,7 +4,7 @@ const faker = require('faker-br');
 const { People } = require('../../src/models');
 
 const senha = 'password1';
-const salt = bcrypt.genSaltSync(8);
+const salt = bcrypt.genSaltSync(10);
 const hashedPassword = bcrypt.hashSync(senha, salt);
 
 const peopleOne = {
@@ -12,7 +12,7 @@ const peopleOne = {
   nome: faker.name.findName(),
   cpf: '194.164.151-95',
   data_nascimento: '24/06/1997',
-  email: 'pedro.mk.21@hotmail.com',
+  email: 'pedro.mk.13@hotmail.com',
   senha,
   habilitado: 'sim',
 };
@@ -35,6 +35,7 @@ const peopleThree = {
   senha,
   habilitado: 'não',
 };
+
 const insertPeoples = async (peoples) => {
   await People.insertMany(peoples.map((people) => ({ ...people, password: hashedPassword })));
 };
