@@ -17,7 +17,7 @@ describe('People routes', () => {
       newPeople = {
         nome: faker.name.findName(),
         cpf: '192.164.151-99',
-        data_nascimento: '23/08/1998',
+        data_nascimento: '10/06/2001',
         email: faker.internet.email().toLowerCase(),
         senha: 'password1',
         habilitado: 'sim',
@@ -101,13 +101,13 @@ describe('People routes', () => {
       await insertPeoples([peopleOne]);
       newPeople.data_nascimento = '03/01/2017';
 
-      await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.BAD_REQUEST);
+      await request(app).post('/api/v1/people').send(newPeople).expect(httpStatus.UNAUTHORIZED);
     });
   });
 
   describe('GET /api/v1/people', () => {
     test('deve retornar 200 e aplicar as opções de consulta padrão', async () => {
-      await insertPeoples([peopleOne, peopleTwo]);
+      await insertPeoples([peopleOne]);
 
       const res = await request(app)
         .get('/api/v1/people')
@@ -120,9 +120,9 @@ describe('People routes', () => {
         limit: 100,
         total: 1,
         offset: 1,
-        offsets: 2,
+        offsets: 1,
       });
-      expect(res.body.results).toHaveLength(2);
+      expect(res.body.results).toHaveLength(1);
       expect(res.body.results[0]).toEqual({
         id: peopleOne._id.toHexString(),
         nome: peopleOne.nome,
@@ -319,7 +319,7 @@ describe('People routes', () => {
       const updateBody = {
         nome: faker.name.findName(),
         cpf: '192.151.485-95',
-        data_nascimento: '23/08/2001',
+        data_nascimento: '01/02/1998',
         email: faker.internet.email().toLowerCase(),
         senha: 'novaSenha1',
         habilitado: 'não',
@@ -364,17 +364,6 @@ describe('People routes', () => {
     test('deve retornar 400 se o email for inválido', async () => {
       await insertPeoples([peopleOne]);
       const updateBody = { email: 'invalidEmail' };
-
-      await request(app)
-        .put(`/api/v1/people/${peopleOne._id}`)
-        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
-        .send(updateBody)
-        .expect(httpStatus.BAD_REQUEST);
-    });
-
-    test('deve retornar 400 se o e-mail já estiver em uso', async () => {
-      await insertPeoples([peopleOne, peopleTwo]);
-      const updateBody = { email: peopleTwo.email };
 
       await request(app)
         .put(`/api/v1/people/${peopleOne._id}`)

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UF = require('../utils/enum.uf');
+const { uF } = require('../utils/enum');
 const { toJSON, paginate } = require('./plugins');
 
 const rentalSchema = mongoose.Schema(
@@ -73,7 +73,7 @@ const rentalSchema = mongoose.Schema(
         },
         uf: {
           type: String,
-          enum: UF(),
+          enum: uF(),
           required: false,
           trim: true,
         },

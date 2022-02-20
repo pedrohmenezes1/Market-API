@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
+const { colors } = require('../utils/enum');
+
 const carsSchema = mongoose.Schema(
   {
     modelo: {
@@ -11,6 +13,10 @@ const carsSchema = mongoose.Schema(
     cor: {
       type: String,
       required: true,
+      enum: {
+        values: colors(),
+        message: 'Não é uma cor válida',
+      },
       trim: true,
     },
     ano: {

@@ -1,17 +1,18 @@
 const httpStatus = require('http-status');
-const moment = require('moment');
 const { peopleRepository } = require('../repository');
 const MarketError = require('../utils/MarketError');
-const underage = require('../utils/underage');
+const { underage } = require('../utils/underage');
 /**
  * Cadastra pessoas
  * @param {Object} peopleBody
  * @returns {Promise<peopleRepository>}
  */
 const createPeople = async (peopleBody) => {
-  // eslint-disable-next-line no-param-reassign
-  peopleBody.data_nascimento = moment(peopleBody.data_nascimento, 'DD/MM/YYYY').format('YYYY-MM-DD');
-  underage(peopleBody);
+  const birth = peopleBody.data_nascimento;
+  const year = birth.substr(6, 4);
+  if (underage(new Date(year)) === false) {
+    throw new MarketError(httpStatus.UNAUTHORIZED, 'Pessoa menor de idade');
+  }
   if (await peopleRepository.isEmailTaken(peopleBody.email)) {
     throw new MarketError(httpStatus.BAD_REQUEST, 'Email já existe');
   }
@@ -58,6 +59,17 @@ const updatePeopleById = async (peopleId, updateBody) => {
   const peopleResult = await peopleRepository.getPeopleId(peopleId);
   if (!peopleResult) {
     throw new MarketError(httpStatus.NOT_FOUND, 'Usuário não encontrado');
+  }
+  const birth = updateBody.data_nascimento;
+  const year = birth.substr(6, 4);
+  if (underage(new Date(year)) === false) {
+    throw new MarketError(httpStatus.UNAUTHORIZED, 'Pessoa menor de idade');
+  }
+  if (updateBody.email && (await peopleRepository.isEmailTaken(updateBody.email, peopleId))) {
+    throw new MarketError(httpStatus.BAD_REQUEST, 'Email já existe');
+  }
+  if (updateBody.cpf && (await peopleRepository.isCpfTaken(updateBody.cpf, peopleId))) {
+    throw new MarketError(httpStatus.BAD_REQUEST, 'Cpf já existe');
   }
   Object.assign(peopleResult, updateBody);
   await peopleResult.save();

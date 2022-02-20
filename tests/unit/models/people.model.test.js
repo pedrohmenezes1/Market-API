@@ -8,7 +8,7 @@ describe('People model', () => {
       newPeople = {
         nome: faker.name.findName(),
         cpf: '195.154.252-85',
-        data_nascimento: '13/01/2001',
+        data_nascimento: '02/01/1998',
         email: faker.internet.email().toLowerCase(),
         senha: 'password1',
         habilitado: 'sim',
@@ -44,7 +44,7 @@ describe('People model', () => {
       await expect(new People(newPeople).validate()).rejects.toThrow();
     });
 
-    test('deve lançar um erro de validação se habilitado não for sim ou Não', async () => {
+    test('deve lançar um erro de validação se habilitado não for sim ou não', async () => {
       newPeople.habilitado = 'invalid';
       await expect(new People(newPeople).validate()).rejects.toThrow();
     });
@@ -54,8 +54,8 @@ describe('People model', () => {
     test('não deve retornar a senha do usuário quando o toJSON for chamado', () => {
       const newPeople = {
         nome: faker.name.findName(),
-        cpf: '192.168.232-43',
-        data_nascimento: '10/06/2001',
+        cpf: '195.154.242-85',
+        data_nascimento: '1998/01/02',
         email: faker.internet.email().toLowerCase(),
         senha: 'password1',
         habilitado: 'sim',

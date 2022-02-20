@@ -24,12 +24,12 @@ describe('Cars model', () => {
       await expect(new Cars(newCar).validate()).resolves.toBeUndefined();
     });
 
-    test('deve lançar um erro de validação se o ano for menor que 1950', async () => {
-      newCar.ano = 1949;
+    test('deve lançar um erro de validação se o ano não for número', async () => {
+      newCar.ano = 'invalidYear';
       await expect(new Cars(newCar).validate()).rejects.toThrow();
     });
-    test('deve lançar um erro de validação se o ano for maior que 2022', async () => {
-      newCar.ano = 2023;
+    test('deve lançar um erro de validação se a cor não for válida', async () => {
+      newCar.cor = 'cor';
       await expect(new Cars(newCar).validate()).rejects.toThrow();
     });
 

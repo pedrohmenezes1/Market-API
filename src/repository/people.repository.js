@@ -63,6 +63,16 @@ const getPeopleByEmail = async (email) => {
   return People.findOne({ email });
 };
 
+/**
+ * Atualiza uma pessoa
+ * @param {ObjectId} userId
+ * @param {Object} updateBody
+ * @returns {Promise<People>}
+ */
+const updateOnePeople = async (userId) => {
+  return this.getPeopleId(userId);
+};
+
 module.exports = {
   createPeople,
   isEmailTaken,
@@ -70,4 +80,5 @@ module.exports = {
   findPeople,
   getPeopleId,
   getPeopleByEmail,
+  updateOnePeople,
 };
