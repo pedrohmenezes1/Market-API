@@ -13,11 +13,11 @@ const createFleet = async (fleetBody) => {
 /**
  * Verifica se a placa já existe
  * @param {string} placa - Placa do veículo
- * @param {ObjectId} [excludeFleetId] - O id da frota a ser excluída
+ * @param {Object} [excludeFleetId] - O id da frota a ser excluída
  * @returns {Promise<boolean>}
  */
-const isPlateTaken = async (fleetBody) => {
-  const result = await Fleet.find({ placa: fleetBody.placa });
+const isPlateTaken = async (placa, excludeFleetId) => {
+  const result = await Fleet.find({ placa, _id: { $ne: excludeFleetId } });
   return !!result;
 };
 
