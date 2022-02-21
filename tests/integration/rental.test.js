@@ -441,5 +441,11 @@ describe('Rental routes', () => {
       const dbRental = await Rental.findById(rentalOne._id);
       expect(dbRental).toBeNull();
     });
+
+    test('deve retornar 401 se o token de acesso estiver ausente', async () => {
+      await insertRentals([rentalOne]);
+
+      await request(app).delete(`/api/v1/rental/${rentalOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
+    });
   });
 });
