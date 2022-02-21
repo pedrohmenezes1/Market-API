@@ -6,7 +6,7 @@ const Joi = JoiImport.extend(DateExtension);
 
 const authenticate = {
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
+    email: Joi.string().required().email().lowercase(),
     senha: Joi.string().required().custom(senha),
   }),
 };

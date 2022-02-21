@@ -1,17 +1,23 @@
 const mongoose = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate-v2');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
+
+const { colors } = require('../utils/enum');
 
 const carsSchema = mongoose.Schema(
   {
     modelo: {
       type: String,
       required: true,
+      minlength: 6,
       trim: true,
     },
     cor: {
       type: String,
       required: true,
+      enum: {
+        values: colors(),
+        message: 'Não é uma cor válida',
+      },
       trim: true,
     },
     ano: {
@@ -24,19 +30,24 @@ const carsSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    acessorios: {
-      type: Array,
-    },
+    acessorios: [
+      {
+        descricao: {
+          type: String,
+          min: 1,
+          trim: true,
+          required: true,
+        },
+      },
+    ],
   },
   {
-    versionKey: false,
     timestamps: true,
   }
 );
 
 carsSchema.plugin(toJSON);
-
-carsSchema.plugin(mongoosePaginate);
+carsSchema.plugin(paginate);
 
 /**
  * @typedef Cars

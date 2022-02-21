@@ -1,76 +1,97 @@
 const httpStatus = require('http-status');
-const PeopleRepository = require('../repository/people.repository');
+const { peopleRepository } = require('../repository');
 const MarketError = require('../utils/MarketError');
-
+const { underage } = require('../utils/underage');
 /**
- * Criar people
+ * Cadastra pessoas
  * @param {Object} peopleBody
- * @returns {Promise<PeopleRepository>}
+ * @returns {Promise<peopleRepository>}
  */
 const createPeople = async (peopleBody) => {
-  if (await PeopleRepository.isEmailTaken(peopleBody.email)) {
-    throw new MarketError(httpStatus.BAD_REQUEST, 'Email already taken');
+  const birth = peopleBody.data_nascimento;
+  const year = birth.substr(6, 4);
+  if (underage(new Date(year)) === false) {
+    throw new MarketError(httpStatus.UNAUTHORIZED, 'Pessoa menor de idade');
   }
-  return PeopleRepository.createPeople(peopleBody);
+  if (await peopleRepository.isEmailTaken(peopleBody.email)) {
+    throw new MarketError(httpStatus.BAD_REQUEST, 'Email já existe');
+  }
+  if (await peopleRepository.isCpfTaken(peopleBody.cpf)) {
+    throw new MarketError(httpStatus.BAD_REQUEST, 'Cpf já existe');
+  }
+  return peopleRepository.createPeople(peopleBody);
 };
 
 /**
  * Listar pessoas
  * @param {Object} filter - Mongo filter
  * @param {Object} options - Query options
- * @returns {Promise<PeopleRepository>}
+ * @param {number} [options.limit] - Número máximo de resultados por página (padrão = 100)
+ * @param {number} [options.offset] - Página atual (padrão = 1)
+ * @returns {Promise<QueryResult>}
  */
 const peopleList = async (filter, options) => {
-  const peopleResult = await PeopleRepository.findPeople(filter, options);
+  const peopleResult = await peopleRepository.findPeople(filter, options);
   return peopleResult;
 };
 
 /**
- * Deletar pessoa por id
+ * Deletar pessoas por id
  * @param {ObjectId} peopleId
- * @returns {Promise<PeopleRepository>}
+ * @returns {Promise<peopleRepository>}
  */
 const deletePeopleById = async (peopleId) => {
-  const people = await PeopleRepository.findPeopleById(peopleId);
-  if (!people) {
+  const peopleResult = await peopleRepository.getPeopleId(peopleId);
+  if (!peopleResult) {
     throw new MarketError(httpStatus.NOT_FOUND, 'Usuário não encontrado');
   }
-  await people.remove();
-  return people;
+  await peopleResult.remove();
+  return peopleResult;
 };
 
 /**
- * Atulizar pessoas por id
+ * Atualizar pessoas por id
  * @param {ObjectId} peopleId
  * @param {Object} updateBody
- * @returns {Promise<PeopleRepository>}
+ * @returns {Promise<peopleRepository>}
  */
 const updatePeopleById = async (peopleId, updateBody) => {
-  const people = await PeopleRepository.getpeopleId(peopleId);
-  if (!people) {
+  const peopleResult = await peopleRepository.getPeopleId(peopleId);
+  if (!peopleResult) {
     throw new MarketError(httpStatus.NOT_FOUND, 'Usuário não encontrado');
   }
-  Object.assign(people, updateBody);
-  await people.save();
-  return people;
+  const birth = updateBody.data_nascimento;
+  const year = birth.substr(6, 4);
+  if (underage(new Date(year)) === false) {
+    throw new MarketError(httpStatus.UNAUTHORIZED, 'Pessoa menor de idade');
+  }
+  if (updateBody.email && (await peopleRepository.isEmailTaken(updateBody.email, peopleId))) {
+    throw new MarketError(httpStatus.BAD_REQUEST, 'Email já existe');
+  }
+  if (updateBody.cpf && (await peopleRepository.isCpfTaken(updateBody.cpf, peopleId))) {
+    throw new MarketError(httpStatus.BAD_REQUEST, 'Cpf já existe');
+  }
+  Object.assign(peopleResult, updateBody);
+  await peopleResult.save();
+  return peopleResult;
 };
 
 /**
- * Burcar pessoa por id
+ * Buscar pessoa por id
  * @param {ObjectId} id
- * @returns {Promise<PeopleRepository>}
+ * @returns {Promise<peopleRepository>}
  */
-const getPeopleById = async (id) => {
-  return PeopleRepository.getPeopleId(id);
+const getPeopleById = async (peopleId) => {
+  return peopleRepository.getPeopleId(peopleId);
 };
 
 /**
- * Get people by email
+ * Buscar pessoa por email
  * @param {string} email
- * @returns {Promise<PeopleRepository>}
+ * @returns {Promise<peopleRepository>}
  */
 const getPeopleByEmail = async (email) => {
-  return PeopleRepository.getPeopleByEmail({ email });
+  return peopleRepository.getPeopleByEmail(email);
 };
 
 module.exports = {

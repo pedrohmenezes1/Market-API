@@ -23,7 +23,7 @@ const generateToken = (peopleId, expires, type, secret = config.jwt.secret) => {
 };
 
 /**
- * Save a token
+ * Salvar um token
  * @param {string} token
  * @param {ObjectId} peopleId
  * @param {Moment} expires
@@ -43,7 +43,7 @@ const saveToken = async (token, peopleId, expires, type, blacklisted = false) =>
 };
 
 /**
- * Verify token and return token doc (or throw an error if it is not valid)
+ * Verifique o token e retorna o documento do token (ou lance um erro se não for válido)
  * @param {string} token
  * @param {string} type
  * @returns {Promise<Token>}
@@ -58,7 +58,7 @@ const verifyToken = async (token, type) => {
 };
 
 /**
- * Generate auth tokens
+ * Gerar tokens de autenticação
  * @param {People} people
  * @returns {Promise<Object>}
  */

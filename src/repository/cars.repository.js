@@ -1,30 +1,56 @@
 /* eslint-disable class-methods-use-this */
 const { Cars } = require('../models');
 
-class CarsRepository {
-  async createCars(cars) {
-    return Cars.create(cars);
-  }
+/**
+ * Cadastrar um carro
+ * @param {Object} carBody
+ * @returns {Promise<CarsRepository>}
+ */
+const createCars = async (carBody) => {
+  return Cars.create(carBody);
+};
 
-  async findCars(cars) {
-    const { page = 1, limit = 100, ...query } = cars;
-    return Cars.paginate(
-      { ...query },
-      { limit: Number(limit), page: Number(page), skip: (Number(page) - 1) * Number(limit) }
-    );
-  }
+/**
+ * Consulta de carros
+ * @param {Object} filter - Filtro Mongo
+ * @param {Object} options - Opções de consulta
+ * @param {number} [options.limit] - Número máximo de resultados por página (padrão = 100)
+ * @param {number} [options.page] - Página atual (padrão = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const findCars = async (filter, options) => {
+  const result = await Cars.paginate(filter, options);
+  return result;
+};
 
-  async getCarsId(id) {
-    return Cars.findById(id);
-  }
+/**
+ * Consultar carro por Id
+ * @param {ObjectId} id
+ * @returns {Promise<Cars>}
+ */
+const getCarsId = async (id) => {
+  return Cars.findById(id);
+};
 
-  async findCarsById(id) {
-    return this.getCarsId(id);
-  }
+/**
+ * Atualizar acessórios
+ * @param {ObjectId} carsId
+ * @param {ObjectId} acessoryId
+ * @param {Object} updateBody
+ * @returns {Promise<Cars>}
+ */
+const updateAccessory = async (id, accessoryId, updateBody) => {
+  return Cars.findByIdAndUpdate(
+    id,
+    { $set: { 'acessorios.$[outer].descricao': updateBody.descricao } },
+    { arrayFilters: [{ 'outer.id': accessoryId }] },
+    { upsert: true, returnNewDocument: true }
+  );
+};
 
-  async updateCarsById(id) {
-    return this.getCarsId(id);
-  }
-}
-
-module.exports = new CarsRepository();
+module.exports = {
+  createCars,
+  findCars,
+  getCarsId,
+  updateAccessory,
+};

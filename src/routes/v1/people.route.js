@@ -1,8 +1,8 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const peopleValidation = require('../../validations/people.validation');
-const peopleController = require('../../controllers/people.controller');
+const { peopleValidation } = require('../../validations');
+const { peopleController } = require('../../controllers');
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router
 router
   .route('/:peopleId')
   .delete(auth, validate(peopleValidation.deletePeople), peopleController.deletePeople)
-  .patch(auth, validate(peopleValidation.updatePeople), peopleController.updatePeople)
+  .put(auth, validate(peopleValidation.updatePeople), peopleController.updatePeople)
   .get(auth, validate(peopleValidation.getPeople), peopleController.getPeopleId);
 
 module.exports = router;

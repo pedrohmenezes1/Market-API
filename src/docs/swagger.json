@@ -1,0 +1,1511 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Compassolisa",
+    "description": "Projeto desenvolvido para o programa de bolsas da compasso uol",
+    "contact": {
+      "name": "Pedro Henrique",
+      "email": "pedro.mk.13@hotmail.com",
+      "url": "https://github.com/pedrohmenezes1"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/pedrohmenezes1/Market-API/blob/master/LICENSE"
+    },
+    "version": "1.0.1"
+  },
+  "tags": [
+    {
+      "name": "Car",
+      "description": "CRUD de veículos"
+    },
+    {
+      "name": "People",
+      "description": "CRUD de pessoas"
+    },
+    {
+      "name": "Authenticate",
+      "description": "Autenticação de pessoas"
+    },
+    {
+      "name": "Token",
+      "description": "Tokens de autenticações"
+    },
+    {
+      "name": "Rental",
+      "description": "CRUD de locadoras"
+    }
+
+  ],
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "paths": {
+    "/car": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Car"
+        ],
+        "summary": "Adiciona veículos",
+        "description": "Inclui veículos na tabela",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/car-request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/car-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro na validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Car"
+        ],
+        "summary": "Consulta sobre veículos",
+        "description": "A consulta retorna uma lista de veículos que atendem aos parametros informados",
+        "parameters": [
+          {
+            "name": "descricao",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modelo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ano",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "quantidadePassageiros",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Consulta realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/car-response-list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/car/{carsId}": {
+      "parameters": [
+        {
+          "name": "carsId",
+          "in": "path",
+          "description": "id do carro",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Car"
+        ],
+        "summary": "Consulta um veículo",
+        "description": "A consulta é realizada utilizando o atributo id",
+        "responses": {
+          "200": {
+            "description": "Consulta realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/car-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Car"
+        ],
+        "summary": "Atualização de veículos",
+        "description": "Atualiza os registros de um veículo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/car-request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Atualização realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/car-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Car"
+        ],
+        "summary": "Remoção de veículos",
+        "description": "Um veículo é removido ao realizar a requisição",
+        "responses": {
+          "204": {
+            "description": "Atualização realizada com sucesso"
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/car/{carsId}/acessorios/{accessoryId}": {
+      "parameters": [
+        {
+          "name": "carsId",
+          "in": "path",
+          "description": "id do carro",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "accessoryId",
+          "in": "path",
+          "description": "id da descrição",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Car"
+        ],
+        "summary": "Atualização de um acessório no veículo",
+        "description": "A atualização pode ser feita com apenas um campo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/accessory-request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Atualização realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/car-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/people": {
+      "post": {
+        "tags": [
+          "People"
+        ],
+        "summary": "Cadastro de uma pessoa",
+        "description": "A inclusão é realizada e retornado os dados com o id",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/people-request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Inclusão realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/people-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "People"
+        ],
+        "summary": "Consulta sobre pessoas cadastradas",
+        "description": "A consulta retorna uma lista de pessoas que atendem aos parametros informados",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cpf",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "XXX.XXX.XXX-XX"
+            }
+          },
+          {
+            "name": "data_nascimento",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "01/11/2021"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "senha",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "password"
+            }
+          },
+          {
+            "name": "habilitado",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "sim",
+                "não"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Consulta realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/people-response-list"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/people/{peopleId}": {
+      "parameters": [
+        {
+          "name": "peopleId",
+          "in": "path",
+          "description": "id da pessoa",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "People"
+        ],
+        "summary": "Consulta uma pessoa por id",
+        "description": "A consulta é realizada utilizando o atributo id",
+        "responses": {
+          "200": {
+            "description": "Consulta realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/people-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "People"
+        ],
+        "summary": "Atualização de uma pessoa",
+        "description": "Atualiza os registros da pessoa",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/people-request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Atualização realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/people-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "People"
+        ],
+        "summary": "Remoção de uma pessoa",
+        "description": "Uma pessoa é removida ao realizar a requisição",
+        "responses": {
+          "204": {
+            "description": "Atualização realizada com sucesso"
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rental": {
+      "post": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "Inclusão de uma locadora",
+        "description": "A inclusão é realizada e retornado os dados com o id",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/rental-request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Inclusão realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rental-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "Consulta sobre as locadoras cadastradas",
+        "description": "A consulta retorna uma lista de locadoras que atendem aos parametros informados",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cnpj",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "XX.XXX.XXX/XXXX-XX"
+            }
+          },
+          {
+            "name": "atividades",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cep",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "XXXXX-XXX"
+            }
+          },
+          {
+            "name": "logradouro",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "complemento",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bairro",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "number",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "localidade",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "uf",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "enum"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Consulta realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rental-response-list"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rental/{rentalId}": {
+      "parameters": [
+        {
+          "name": "rentalId",
+          "in": "path",
+          "description": "id da locadora",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "Consulta uma locadora",
+        "description": "A consulta é realizada utilizando o atributo id",
+        "responses": {
+          "200": {
+            "description": "Consulta realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rental-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "Atualização de uma locadora",
+        "description": "Atualiza os registros da locadora",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/rental-request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Atualização realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rental-response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "Remoção de uma locadora",
+        "description": "A locadora é removida ao realizar a requisição",
+        "responses": {
+          "204": {
+            "description": "Remoção realizada com sucesso"
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "id não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authenticate": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "summary": "Autenticação de usuários",
+        "description": "Authentica um usuário e retorna o email, token e se está habilitado",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/auth-request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Autenticação realizada com sucesso",
+            "headers": {
+              "token": {
+                "schema": {
+                  "type": "string",
+                  "description": "Token para autenticação"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao realizar a solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "auth-request": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "senha": {
+            "type": "string",
+            "format": "password"
+          }
+        }
+      },
+      "rental-request": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "cnpj": {
+            "type": "string",
+            "example": "XX.XXX.XXX/XXXX-XX"
+          },
+          "atividades": {
+            "type": "string"
+          },
+          "endereco": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cep": {
+                  "type": "string",
+                  "example": "XXXXX-XXX"
+                },
+                "number": {
+                  "type": "string"
+                },
+                "isFilial": {
+                  "type": "boolean"
+                },
+                "complemento": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "rental-response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "cnpj": {
+            "type": "string",
+            "example": "XX.XXX.XXX/XXXX-XX"
+          },
+          "atividades": {
+            "type": "string"
+          },
+          "endereco": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cep": {
+                  "type": "string",
+                  "example": "XXXXX-XXX"
+                },
+                "number": {
+                  "type": "string"
+                },
+                "isFilial": {
+                  "type": "boolean"
+                },
+                "complemento": {
+                  "type": "string"
+                },
+                "bairro": {
+                  "type": "string"
+                },
+                "logradouro": {
+                  "type": "string"
+                },
+                "localidade": {
+                  "type": "string"
+                },
+                "uf": {
+                  "type": "string",
+                  "format": "enum"
+                }
+              }
+            }
+          }
+        }
+      },
+      "rental-response-list": {
+        "type": "object",
+        "properties": {
+          "locadoras": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/rental-response"
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "limit": {
+            "type": "number"
+          },
+          "offset": {
+            "type": "number"
+          },
+          "offsets": {
+            "type": "number"
+          }
+        }
+      },
+      "people-request": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string",
+            "example": "XXX.XXX.XXX-XX"
+          },
+          "data_nascimento": {
+            "type": "string",
+            "format": "date",
+            "example": "01/11/2021"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "senha": {
+            "type": "string",
+            "format": "password"
+          },
+          "habilitado": {
+            "type": "string",
+            "enum": [
+              "sim",
+              "não"
+            ]
+          }
+        }
+      },
+      "people-response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string",
+            "example": "XXX.XXX.XXX-XX"
+          },
+          "data_nascimento": {
+            "type": "string",
+            "example": "20/12/2020"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "habilitado": {
+            "type": "string",
+            "enum": [
+              "sim",
+              "não"
+            ]
+          }
+        }
+      },
+      "people-response-list": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/people-response"
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "limit": {
+            "type": "number"
+          },
+          "offset": {
+            "type": "number"
+          },
+          "offsets": {
+            "type": "number"
+          }
+        }
+      },
+      "accessory-request": {
+        "type": "object",
+        "properties": {
+          "descricao": {
+            "type": "string"
+          }
+        }
+      },
+      "car-request": {
+        "type": "object",
+        "properties": {
+          "acessorios": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "descricao": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "cor": {
+            "type": "string"
+          },
+          "modelo": {
+            "type": "string"
+          },
+          "ano": {
+            "type": "number"
+          },
+          "quantidadePassageiros": {
+            "type": "number"
+          }
+        }
+      },
+      "car-response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "acessorios": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "descricao": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "cor": {
+            "type": "string"
+          },
+          "modelo": {
+            "type": "string"
+          },
+          "ano": {
+            "type": "number"
+          },
+          "quantidadePassageiros": {
+            "type": "number"
+          }
+        }
+      },
+      "car-response-list": {
+        "type": "object",
+        "properties": {
+          "veiculos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/car-response"
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "limit": {
+            "type": "number"
+          },
+          "offset": {
+            "type": "number"
+          },
+          "offsets": {
+            "type": "number"
+          }
+        }
+      },
+      "erro": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "erro de validação"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

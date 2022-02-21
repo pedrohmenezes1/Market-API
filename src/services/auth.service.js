@@ -1,5 +1,5 @@
 /* eslint-disable no-return-await */
-const AuthRepository = require('../repository/auth.repository');
+const { authRepository } = require('../repository');
 
 /**
  * Authenticação com email e senha :)
@@ -7,7 +7,7 @@ const AuthRepository = require('../repository/auth.repository');
  * @returns {Promise<People>}
  */
 const authenticate = async (password) => {
-  return await AuthRepository.verifyPassword(password);
+  return await authRepository.verifyPassword(password);
 };
 
 module.exports = {
