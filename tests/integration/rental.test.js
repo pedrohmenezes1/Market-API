@@ -401,7 +401,18 @@ describe('Rental routes', () => {
     test('deve retornar 401 se o token de acesso estiver ausente', async () => {
       await insertRentals([rentalOne]);
 
-      await request(app).get(`/api/v1/car/${rentalOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
+      await request(app).get(`/api/v1/rental/${rentalOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
+    });
+
+    test('deve retornar o erro 400 se rentalId não for um ID válido do mongo', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne]);
+
+      await request(app)
+        .get('/api/v1/rental/invalidId')
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send()
+        .expect(httpStatus.BAD_REQUEST);
     });
   });
 });
