@@ -24,6 +24,7 @@ Tabela de conteúdos
    * [Comandos](#comandos)
    * [Estrutura](#estrutura)
    * [Endpoints](#endpoints)
+   * [Tests](#tests)
    * [Payloads](#payloads)
 <!--te-->
 
@@ -205,6 +206,23 @@ Endpoints
 **Documentation route**:\
 `http://localhost:3000/api/v1/docs/#/` - Web documentation(swagger)
 ![Swagger](https://user-images.githubusercontent.com/83426602/154858822-de086906-7759-4e8a-84a7-195d74fed5ff.png)
+
+Tests
+=========
+
+### Testando as rotas
+
+Abra o terminal e digite:
+
+```
+ yarn test
+ yarn test:watch
+ ou
+ yarn coverage
+ yarn coverage:coveralls
+``` 
+
+![Tests](https://user-images.githubusercontent.com/83426602/154880805-6fb9b4c8-d9f1-4eef-9caf-fad5d2b491ff.gif)
 
 Payloads
 =========
