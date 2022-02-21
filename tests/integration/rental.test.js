@@ -414,5 +414,16 @@ describe('Rental routes', () => {
         .send()
         .expect(httpStatus.BAD_REQUEST);
     });
+
+    test('deve retornar o erro 404 se o veículo não for encontrado', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne]);
+
+      await request(app)
+        .get(`/api/v1/rental/${rentalTwo._id}`)
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send()
+        .expect(httpStatus.NOT_FOUND);
+    });
   });
 });
