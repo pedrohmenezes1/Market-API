@@ -28,10 +28,17 @@ describe('Cars model', () => {
       newCar.ano = 'invalidYear';
       await expect(new Cars(newCar).validate()).rejects.toThrow();
     });
+
     test('deve lançar um erro de validação se a cor não for válida', async () => {
       newCar.cor = 'cor';
       await expect(new Cars(newCar).validate()).rejects.toThrow();
     });
+
+    test('deve lançar um erro de validação se o veículo não tiver nenhum acessório', async () => {
+      newCar.acessorios = { descricao: [] };
+      await expect(new Cars(newCar).validate()).rejects.toThrow();
+    });
+
     test('deve lançar um erro de validação se a quantidadePassageiros não for número', async () => {
       newCar.quantidadePassageiros = 'invalidPassageiros';
       await expect(new Cars(newCar).validate()).rejects.toThrow();
