@@ -426,4 +426,20 @@ describe('Rental routes', () => {
         .expect(httpStatus.NOT_FOUND);
     });
   });
+
+  describe('DELETE /api/v1/rental/:rentalId', () => {
+    test('deve retornar 204 se os dados estiverem ok', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne]);
+
+      await request(app)
+        .delete(`/api/v1/rental/${rentalOne._id}`)
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send()
+        .expect(httpStatus.NO_CONTENT);
+
+      const dbRental = await Rental.findById(rentalOne._id);
+      expect(dbRental).toBeNull();
+    });
+  });
 });
