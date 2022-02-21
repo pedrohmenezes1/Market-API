@@ -447,5 +447,16 @@ describe('Rental routes', () => {
 
       await request(app).delete(`/api/v1/rental/${rentalOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
     });
+
+    test('deve retornar o erro 400 se rentalId não for um ID válido do mongo', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne]);
+
+      await request(app)
+        .delete('/api/v1/rental/invalidId')
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send()
+        .expect(httpStatus.BAD_REQUEST);
+    });
   });
 });
