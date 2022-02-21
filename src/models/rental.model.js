@@ -41,7 +41,7 @@ const rentalSchema = mongoose.Schema(
           },
         },
         number: {
-          type: String,
+          type: Number,
           required: true,
           trim: true,
         },

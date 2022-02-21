@@ -11,12 +11,12 @@ describe('Rental model', () => {
         endereco: [
           {
             cep: '54100-537',
-            number: '1234',
+            number: 1234,
             isFilial: false,
           },
           {
             cep: '96200-510',
-            number: '5678',
+            number: 5678,
             complemento: 'Muro A',
             isFilial: true,
           },
@@ -40,6 +40,11 @@ describe('Rental model', () => {
 
     test('deve lançar um erro de validação se isFilial não for boleano', async () => {
       newRental.endereco = { isFilial: 'invalidFilial' };
+      await expect(new Rental(newRental).validate()).rejects.toThrow();
+    });
+
+    test('deve lançar um erro de validação se number não for número', async () => {
+      newRental.endereco = { number: 'invalidNumber' };
       await expect(new Rental(newRental).validate()).rejects.toThrow();
     });
   });
