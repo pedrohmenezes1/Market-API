@@ -541,16 +541,16 @@ describe('Rental routes', () => {
         .expect(httpStatus.BAD_REQUEST);
     });
 
-    test('deve retornar o erro 409 se houver dois cnpj', async () => {
+    test('deve retornar o erro 500 se houver dois cnpj', async () => {
       await insertPeoples([peopleOne]);
-      await insertRentals([rentalTwo]);
-      const updateBody = { cnpj: rentalTwo };
+      await insertRentals([rentalOne, rentalTwo]);
+      const updateBody = { cnpj: rentalTwo.cnpj };
 
       await request(app)
         .put(`/api/v1/rental/${rentalOne._id}`)
         .set('Authorization', `Bearer ${peopleOneAccessToken}`)
         .send(updateBody)
-        .expect(httpStatus.CONFLICT);
+        .expect(httpStatus.INTERNAL_SERVER_ERROR);
     });
 
     test('deve retornar o erro 400 se o cnpj for incorreto', async () => {
