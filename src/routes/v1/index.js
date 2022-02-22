@@ -1,6 +1,7 @@
 const express = require('express');
 const carsRoute = require('./cars.route');
 const peopleRoute = require('./people.route');
+const fleetRoute = require('./fleet.route');
 const authRoute = require('./auth.route');
 const docsRoute = require('./docs.route');
 const rentalRoute = require('./rental.route');
@@ -25,10 +26,14 @@ const defaultRoutes = [
     path: '/rental',
     route: rentalRoute,
   },
+  {
+    path: '/rental',
+    route: fleetRoute,
+  },
 ];
 
 const devRoutes = [
-  // routes available only in development mode
+  // rotas disponíveis apenas no modo de desenvolvimento
   {
     path: '/docs',
     route: docsRoute,
