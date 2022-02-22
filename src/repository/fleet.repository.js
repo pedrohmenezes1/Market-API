@@ -21,7 +21,43 @@ const isPlateTaken = async (placa, excludeFleetId) => {
   return !!result;
 };
 
+/**
+ * Consulta para frotas
+ * @param {Object} filter - Filtro Mongo
+ * @param {Object} options - Opções de consulta
+ * @param {number} [options.limit] - Número máximo de resultados por página (padrão = 100)
+ * @param {number} [options.offset] - Página atual (padrão = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const findFleet = async (filter, options) => {
+  const people = await Fleet.paginate(filter, options);
+  return people;
+};
+
+/**
+ * Consulta por id de frotas
+ * @param {ObjectId} id
+ * @param {ObjectId} getRentalId
+ * @returns {Promise<Fleet>}
+ */
+const getFleetId = async (id, rentalId) => {
+  return Fleet.find({ id, id_locadora: rentalId });
+};
+
+/**
+ * Atualiza uma frota
+ * @param {ObjectId} fleetId
+ * @param {Object} updateBody
+ * @returns {Promise<Fleet>}
+ */
+const updateOneFleet = async (fleetId) => {
+  return this.getFleetId(fleetId);
+};
+
 module.exports = {
   createFleet,
   isPlateTaken,
+  findFleet,
+  getFleetId,
+  updateOneFleet,
 };
