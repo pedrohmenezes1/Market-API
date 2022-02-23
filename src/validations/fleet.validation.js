@@ -12,6 +12,18 @@ const createFleet = {
   }),
 };
 
+const getFleet = {
+  query: Joi.object().keys({
+    nome: Joi.string(),
+    id_carro: Joi.array().custom(objectId).items(Joi.string()),
+    status: Joi.string(),
+    valor_diaria: Joi.string(),
+    id_locadora: Joi.array().custom(objectId).items(Joi.string()),
+    placa: Joi.string(),
+  }),
+};
+
 module.exports = {
   createFleet,
+  getFleet,
 };
