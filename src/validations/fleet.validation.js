@@ -12,7 +12,7 @@ const createFleet = {
   }),
 };
 
-const getFleet = {
+const getFleets = {
   query: Joi.object().keys({
     nome: Joi.string(),
     id_carro: Joi.array().custom(objectId).items(Joi.string()),
@@ -23,7 +23,15 @@ const getFleet = {
   }),
 };
 
+const getFleet = {
+  params: Joi.object().keys({
+    fleetId: Joi.required().custom(objectId),
+    rentalId: Joi.required().custom(objectId),
+  }),
+};
+
 module.exports = {
   createFleet,
+  getFleets,
   getFleet,
 };
