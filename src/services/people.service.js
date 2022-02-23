@@ -78,7 +78,7 @@ const updatePeopleById = async (peopleId, updateBody) => {
 
 /**
  * Buscar pessoa por id
- * @param {ObjectId} id
+ * @param {ObjectId} peopleId
  * @returns {Promise<peopleRepository>}
  */
 const getPeopleById = async (peopleId) => {

@@ -61,9 +61,19 @@ const updateFleetById = async (fleetId, updateBody) => {
   return fleetResult;
 };
 
+/**
+ * Buscar frota por id
+ * @param {ObjectId} peopleId
+ * @returns {Promise<fleetRepository>}
+ */
+const getFleetById = async (peopleId) => {
+  return fleetRepository.getFleetId(peopleId);
+};
+
 module.exports = {
   createFleet,
   fleetList,
   deleteFleetById,
   updateFleetById,
+  getFleetById,
 };
