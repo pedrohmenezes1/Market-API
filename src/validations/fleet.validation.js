@@ -30,8 +30,20 @@ const getFleet = {
   }),
 };
 
+const updateFleet = {
+  body: Joi.object().keys({
+    nome: Joi.string().optional().trim(),
+    id_carro: Joi.array().custom(objectId).items(Joi.string().optional()),
+    status: Joi.string().optional(),
+    valor_diaria: Joi.number().optional(),
+    id_locadora: Joi.array().custom(objectId).items(Joi.string().optional()),
+    placa: Joi.string().optional(),
+  }),
+};
+
 module.exports = {
   createFleet,
   getFleets,
   getFleet,
+  updateFleet,
 };
