@@ -415,7 +415,7 @@ describe('Rental routes', () => {
         .expect(httpStatus.BAD_REQUEST);
     });
 
-    test('deve retornar o erro 404 se o veículo não for encontrado', async () => {
+    test('deve retornar o erro 404 se a locadora não for encontrada no banco de dados', async () => {
       await insertPeoples([peopleOne]);
       await insertRentals([rentalOne]);
 
@@ -456,6 +456,136 @@ describe('Rental routes', () => {
         .delete('/api/v1/rental/invalidId')
         .set('Authorization', `Bearer ${peopleOneAccessToken}`)
         .send()
+        .expect(httpStatus.BAD_REQUEST);
+    });
+
+    test('deve retornar o erro 404 se a locadora não for encontrada no banco de dados', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne]);
+
+      await request(app)
+        .delete(`/api/v1/rental/${rentalTwo._id}`)
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send()
+        .expect(httpStatus.NOT_FOUND);
+    });
+  });
+
+  describe('PUT /api/v1/rental/:rentalId', () => {
+    test('deve retornar 200 e atualizar uma locadora com sucesso se os dados estiverem ok', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne]);
+
+      const updateBody = {
+        nome: 'Pedroliso locadora de avião',
+        cnpj: '16.670.075/0002-55',
+        atividades: 'Locação de aviões',
+        endereco: [
+          {
+            cep: '49025-850',
+            number: 9874,
+            isFilial: false,
+          },
+          {
+            cep: '69317-586',
+            number: 8765,
+            complemento: 'Muro D',
+            isFilial: true,
+          },
+        ],
+      };
+
+      await request(app)
+        .put(`/api/v1/rental/${rentalOne._id}`)
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send(updateBody)
+        .expect(httpStatus.OK);
+
+      const dbRental = await Rental.findById(rentalOne._id);
+      expect(dbRental).toBeDefined();
+      expect(dbRental).toMatchObject({
+        id: rentalOne._id.toHexString(),
+        nome: updateBody.nome,
+        cnpj: updateBody.cnpj,
+        atividades: updateBody.atividades,
+        endereco: expect.arrayContaining([]),
+      });
+    });
+
+    test('deve retornar 401 se o token de acesso estiver ausente', async () => {
+      await insertRentals([rentalOne]);
+
+      await request(app).put(`/api/v1/rental/${rentalOne._id}`).send().expect(httpStatus.UNAUTHORIZED);
+    });
+
+    test('deve retornar o erro 400 se rentalId não for um ID válido do mongo', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne]);
+
+      await request(app)
+        .put('/api/v1/rental/invalidId')
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send()
+        .expect(httpStatus.BAD_REQUEST);
+    });
+
+    test('deve retornar o erro 400 se houver duas matrizes', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne]);
+      const updateBody = { endereco: [({ isFilial: false }, { isFilial: false })] };
+
+      await request(app)
+        .put(`/api/v1/rental/${rentalOne._id}`)
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send(updateBody)
+        .expect(httpStatus.BAD_REQUEST);
+    });
+
+    test('deve retornar o erro 500 se houver dois cnpj', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne, rentalTwo]);
+      const updateBody = { cnpj: rentalTwo.cnpj };
+
+      await request(app)
+        .put(`/api/v1/rental/${rentalOne._id}`)
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send(updateBody)
+        .expect(httpStatus.INTERNAL_SERVER_ERROR);
+    });
+
+    test('deve retornar o erro 400 se o cnpj for incorreto', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne]);
+      const updatebody = { cnpj: 'invalidCnpj' };
+
+      await request(app)
+        .put(`/api/v1/rental/${rentalOne._id}`)
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send(updatebody)
+        .expect(httpStatus.BAD_REQUEST);
+    });
+
+    test('deve retornar o erro 400 se o cep for incorreto', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne]);
+      const updatebody = { endereco: { cep: 'invalidCep' } };
+
+      await request(app)
+        .put(`/api/v1/rental/${rentalOne._id}`)
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send(updatebody)
+        .expect(httpStatus.BAD_REQUEST);
+    });
+
+    test('deve retornar o erro 400 se o number não for um número', async () => {
+      await insertPeoples([peopleOne]);
+      await insertRentals([rentalOne]);
+      const updatebody = { endereco: { number: 'invalidNumber' } };
+
+      await request(app)
+        .put(`/api/v1/rental/${rentalOne._id}`)
+        .set('Authorization', `Bearer ${peopleOneAccessToken}`)
+        .send(updatebody)
         .expect(httpStatus.BAD_REQUEST);
     });
   });
