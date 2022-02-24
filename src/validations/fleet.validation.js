@@ -41,9 +41,17 @@ const updateFleet = {
   }),
 };
 
+const deleteFleet = {
+  params: Joi.object().keys({
+    fleetId: Joi.required().custom(objectId),
+    rentalId: Joi.required().custom(objectId),
+  }),
+};
+
 module.exports = {
   createFleet,
   getFleets,
   getFleet,
   updateFleet,
+  deleteFleet,
 };

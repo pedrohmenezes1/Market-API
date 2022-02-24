@@ -40,8 +40,8 @@ const findFleet = async (filter, options) => {
  * @param {ObjectId} getRentalId
  * @returns {Promise<Fleet>}
  */
-const getFleetId = async (id, rentalId) => {
-  return Fleet.find({ id, id_locadora: rentalId });
+const getFleetId = async (fleetId, rentalId) => {
+  return Fleet.find({ id: fleetId, id_locadora: rentalId });
 };
 
 /**
