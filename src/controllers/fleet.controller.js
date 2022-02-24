@@ -10,7 +10,7 @@ const createFleet = catchAsync(async (req, res) => {
 });
 
 const getFleet = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['nome', 'cpf', 'data_nascimento', 'email', 'habilitado']);
+  const filter = pick(req.query, ['nome', 'id_carro', 'status', 'valor_diaria', 'id_locadora', 'placa']);
   const options = pick(req.query, ['limit', 'offset']);
   const result = await fleetService.fleetList(req.params.rentalId, filter, options);
   res.status(200).send(result);
