@@ -16,7 +16,13 @@ const getFleet = catchAsync(async (req, res) => {
   res.status(200).send(result);
 });
 
+const deleteFleet = catchAsync(async (req, res) => {
+  await fleetService.deleteFleetById(req.params.rentalId, req.params.fleetId);
+  res.status(httpStatus.NO_CONTENT).send();
+});
+
 module.exports = {
   createFleet,
   getFleet,
+  deleteFleet,
 };
