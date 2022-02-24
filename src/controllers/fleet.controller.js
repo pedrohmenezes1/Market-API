@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const { fleetService } = require('../services');
 const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
+const MarketError = require('../utils/MarketError');
 const { serialize } = require('../serialize/fleet.serialize');
 
 const createFleet = catchAsync(async (req, res) => {
@@ -26,9 +27,18 @@ const updateFleet = catchAsync(async (req, res) => {
   res.status(200).send(serialize(result));
 });
 
+const getFleetId = catchAsync(async (req, res) => {
+  const result = await fleetService.getFleetById(req.params.rentalId, req.params.fleetId);
+  if (!result) {
+    throw new MarketError(httpStatus.NOT_FOUND, 'Frota não encontrada');
+  }
+  res.status(200).send(serialize(result));
+});
+
 module.exports = {
   createFleet,
   getFleet,
   deleteFleet,
   updateFleet,
+  getFleetId,
 };
